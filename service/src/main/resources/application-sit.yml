@@ -1,0 +1,10 @@
+# =============================
+# = Spring
+# =============================
+spring:
+  profiles:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/meeting-room?severTimezone=UTC&useSSL=false
+    username: root
+

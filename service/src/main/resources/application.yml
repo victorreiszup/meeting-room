@@ -1,0 +1,19 @@
+# =============================
+# = Server
+# =============================
+server:
+  port: 8080
+  servlet:
+    context-path: /v1
+# =============================
+# = Spring
+# =============================
+spring:
+  profiles:
+    active: sit
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/meeting-room?createDatabaseIfNotExist=true&severTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: bancoroot
+    type: com.zaxxer.hikari.HikariDataSource
