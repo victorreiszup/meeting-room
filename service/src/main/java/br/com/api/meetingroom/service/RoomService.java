@@ -2,6 +2,7 @@ package br.com.api.meetingroom.service;
 
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
+import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.RoomMapper;
@@ -23,8 +24,16 @@ public class RoomService {
         return roomMapper.fromEntityToDTO(room);
     }
 
+    public RoomDTO createRoom(CreatedRoomDTO createdRoomDTO) {
+        Room room = roomMapper.fromDToToEntity(createdRoomDTO);
+        roomRepository.save(room);
+        return roomMapper.fromEntityToDTO(room);
+    }
+
     private Room getActiveRoomOrThrowException(Long id) {
         return roomRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
+
+
 }

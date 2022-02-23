@@ -3,6 +3,7 @@ package br.com.api.meetingroom.unit;
 import br.com.api.meetingroom.core.BaseUnitTest;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
+import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.RoomService;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Optional;
 
@@ -40,8 +42,8 @@ public class RoomServiceUnitTest extends BaseUnitTest {
         RoomDTO roomDTO = roomService.findRoomById(1L);
 
         assertEquals(room.getId(), roomDTO.getId());
-        assertEquals(room.getName(),roomDTO.getName());
-        assertEquals(room.getSeats(),roomDTO.getSeats());
+        assertEquals(room.getName(), roomDTO.getName());
+        assertEquals(room.getSeats(), roomDTO.getSeats());
     }
 
 
@@ -49,8 +51,19 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     void findRoomByIdNotFound() {
 
         when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, ()->roomService.findRoomById(1L));
+        assertThrows(NotFoundException.class, () -> roomService.findRoomById(1L));
     }
 
+    @Test
+    void testCreateRoomSuccess() {
+        CreatedRoomDTO createdRoomDTO = TestDataCreator.newCreatedRoomDToBuilder().build();
+
+        RoomDTO roomDTO = roomService.createRoom(createdRoomDTO);
+
+        assertEquals(createdRoomDTO.getName(), roomDTO.getName());
+        assertEquals(createdRoomDTO.getSeats(), roomDTO.getSeats());
+        verify(roomRepository).save(any());
+
+    }
 
 }

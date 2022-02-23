@@ -1,23 +1,23 @@
 package br.com.api.meetingroom.dto.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 public class CreatedRoomDTO {
 
-    private Long id;
-
+    @NotBlank
     private String name;
 
+    @NotNull
+    @Positive
     private Integer seats;
 
-    public CreatedRoomDTO(Long id, String name, Integer seats) {
-        this.id = id;
+    public CreatedRoomDTO( String name, Integer seats) {
+
         this.name = name;
         this.seats = seats;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -57,7 +57,7 @@ public class CreatedRoomDTO {
         }
 
         public CreatedRoomDTO build() {
-            return new CreatedRoomDTO(id, name, seats);
+            return new CreatedRoomDTO( name, seats);
         }
     }
 
@@ -65,12 +65,12 @@ public class CreatedRoomDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreatedRoomDTO roomDTO = (CreatedRoomDTO) o;
-        return Objects.equals(id, roomDTO.id) && Objects.equals(name, roomDTO.name) && Objects.equals(seats, roomDTO.seats);
+        CreatedRoomDTO that = (CreatedRoomDTO) o;
+        return Objects.equals(name, that.name) && Objects.equals(seats, that.seats);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, seats);
+        return Objects.hash(name, seats);
     }
 }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import java.util.Objects;
 
 @Entity
@@ -43,6 +44,13 @@ public class Room {
 
     public Boolean getActive() {
         return active;
+    }
+
+    @PrePersist
+    void prePersist() {
+        if (Objects.isNull(active)) {
+            active = true;
+        }
     }
 
     @Override
