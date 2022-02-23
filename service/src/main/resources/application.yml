@@ -10,10 +10,10 @@ server:
 # =============================
 spring:
   profiles:
-    active: sit
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/meeting-room?createDatabaseIfNotExist=true&severTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: bancoroot
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/meeting-room-db
+    username: postgres
+    password: root
     type: com.zaxxer.hikari.HikariDataSource
