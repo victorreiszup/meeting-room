@@ -5,6 +5,7 @@ import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,5 +33,11 @@ public class RoomController {
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> findRoombyId(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(roomService.findRoomById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable(value = "id") Long id) {
+        roomService.deleteRoom(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

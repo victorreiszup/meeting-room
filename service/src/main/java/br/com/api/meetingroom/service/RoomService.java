@@ -8,6 +8,8 @@ import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.RoomMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class RoomService {
 
@@ -30,10 +32,15 @@ public class RoomService {
         return roomMapper.fromEntityToDTO(room);
     }
 
+    @Transactional
+    public void deleteRoom(Long id) {
+        getActiveRoomOrThrowException(id);
+        roomRepository.deactivate(id);
+    }
+
     private Room getActiveRoomOrThrowException(Long id) {
         return roomRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
-
 
 }
