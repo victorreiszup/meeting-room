@@ -2,6 +2,7 @@ package br.com.api.meetingroom.utils;
 
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
+import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 
 public final class TestDataCreator {
 
@@ -19,6 +20,13 @@ public final class TestDataCreator {
 
     public static CreatedRoomDTO.RoomDTOBuilder newCreatedRoomDToBuilder(){
         return  CreatedRoomDTO.newCreatedRoomDtoBuilder()
+                .name(DEFAULT_ROOM_NAME)
+                .seats(DEFAULT_ROOM_SEATS);
+    }
+
+    public static UpdateRoomDTO.RoomDTOBuilder newUpdateRoomDtoBuilder(){
+        return UpdateRoomDTO.newUpdateRoomDtoBuilder()
+                .id(DEFAULT_ROOM_ID)
                 .name(DEFAULT_ROOM_NAME)
                 .seats(DEFAULT_ROOM_SEATS);
     }
