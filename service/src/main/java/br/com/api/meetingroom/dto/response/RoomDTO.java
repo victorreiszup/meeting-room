@@ -1,7 +1,5 @@
 package br.com.api.meetingroom.dto.response;
 
-import java.util.Objects;
-
 public class RoomDTO {
 
     private Long id;
@@ -61,16 +59,4 @@ public class RoomDTO {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoomDTO roomDTO = (RoomDTO) o;
-        return Objects.equals(id, roomDTO.id) && Objects.equals(name, roomDTO.name) && Objects.equals(seats, roomDTO.seats);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, seats);
-    }
 }
