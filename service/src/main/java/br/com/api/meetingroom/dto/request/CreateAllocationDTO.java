@@ -1,23 +1,36 @@
 package br.com.api.meetingroom.dto.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 public class CreateAllocationDTO {
 
+    @NotNull
     private Long roomId;
 
+    @NotBlank
     private String employeeName;
 
+    @NotBlank
+    @Email
     private String employeeEmail;
 
+    @NotBlank
     private String subject;
 
+    @NotNull
+    @FutureOrPresent
     private OffsetDateTime startAt;
 
+    @NotNull
+    @FutureOrPresent
     private OffsetDateTime endAt;
 
-    private CreateAllocationDTO(Long roomId, String employeeName, String employeeEmail, String subject, OffsetDateTime startAt, OffsetDateTime endAt) {
+    public CreateAllocationDTO(Long roomId, String employeeName, String employeeEmail, String subject, OffsetDateTime startAt, OffsetDateTime endAt) {
         this.roomId = roomId;
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
