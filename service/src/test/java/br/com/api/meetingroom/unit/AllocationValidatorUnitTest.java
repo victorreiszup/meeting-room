@@ -40,7 +40,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateWhenHourIsInvalid() {
         Exception exception = assertThrows(
                 ConflictException.class,
-                () -> allocationValidator.validate(
+                () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
                                 .startAt(DateUltils.newOffsetDateTimeNow())
                                 .endAt(DateUltils.newOffsetDateTimeNow())
@@ -55,7 +55,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateWhenStarAtIsInvalid() {
         Exception exception = assertThrows(
                 ConflictException.class,
-                () -> allocationValidator.validate(
+                () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
                                 .startAt(DateUltils.newOffsetDateTimeNow().plusMinutes(2))
                                 .endAt(DateUltils.newOffsetDateTimeNow())
@@ -68,7 +68,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
 
     @Test
     void testValidateWhenDateIsValid() {
-        assertDoesNotThrow(() -> allocationValidator.validate(
+        assertDoesNotThrow(() -> allocationValidator.validateCreatedAllocation(
                 newCreateAllocationDtoBuilder()
                         .startAt(DateUltils.newOffsetDateTimeNow())
                         .endAt(DateUltils.newOffsetDateTimeNow().plusHours(1))
@@ -80,7 +80,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateWhenDurationIsInvalid() {
         Exception exception = assertThrows(
                 BusinessException.class,
-                () -> allocationValidator.validate(
+                () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
                                 .startAt(DateUltils.newOffsetDateTimeNow())
                                 .endAt(DateUltils.newOffsetDateTimeNow().plusHours(4).plusSeconds(1))
@@ -92,7 +92,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     @Test
     void testValidateWhenDurationIsValid() {
         assertDoesNotThrow(() ->
-                allocationValidator.validate(
+                allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
                                 .startAt(DateUltils.newOffsetDateTimeNow())
                                 .endAt(DateUltils.newOffsetDateTimeNow().plusHours(4))
@@ -117,7 +117,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
                 ));
 
            Exception exception = assertThrows(ConflictException.class,
-                    ()-> allocationValidator.validate(createAllocationDTO));
+                    ()-> allocationValidator.validateCreatedAllocation(createAllocationDTO));
 
            assertNotNull(exception);
            assertEquals("Allocation overlap", exception.getMessage());
@@ -139,7 +139,7 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
                                 .build()
                 ));
 
-        assertDoesNotThrow(() -> allocationValidator.validate(createAllocationDTO));
+        assertDoesNotThrow(() -> allocationValidator.validateCreatedAllocation(createAllocationDTO));
     }
 
 
