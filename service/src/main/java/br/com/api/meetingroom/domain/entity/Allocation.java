@@ -1,5 +1,7 @@
 package br.com.api.meetingroom.domain.entity;
 
+import br.com.api.meetingroom.util.DateUltils;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
+
+import static br.com.api.meetingroom.util.DateUltils.*;
 import static java.util.Objects.isNull;
 
 @Entity
@@ -54,14 +57,14 @@ public class Allocation {
     @PrePersist
     void prePersist() {
         if (isNull(createdAt)) {
-            createdAt = OffsetDateTime.now(ZoneOffset.of("-03:00"));
+            createdAt = newOffsetDateTimeNow();
         }
     }
 
     @PreUpdate
     void preUpdate() {
         if (isNull(updatedAt)) {
-            updatedAt = OffsetDateTime.now(ZoneOffset.of("-03:00"));
+            updatedAt = newOffsetDateTimeNow();
         }
     }
 
