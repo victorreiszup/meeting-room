@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
-    @Query("SELECT a FROM Allocation a WHERE" +
-            "a.room.id = :roomId AND a.startAt >= :startAt AND a.endAT <= :endAt")
+    @Query("SELECT a " +
+            "FROM Allocation a " +
+            "WHERE a.room.id = :roomId AND a.startAt >= :startAt AND a.endAT <= :endAt")
     List<Allocation> findAllWithFilter(@Param("roomId") Long roomId, @Param("startAt") OffsetDateTime startAt, @Param("endAt") OffsetDateTime endAt);
 }
