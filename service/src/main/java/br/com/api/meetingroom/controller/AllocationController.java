@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/allocations")
 public class AllocationController {
 
-   private final AllocationService allocationService;
+    private final AllocationService allocationService;
 
     public AllocationController(AllocationService allocationService) {
         this.allocationService = allocationService;
@@ -33,6 +33,12 @@ public class AllocationController {
     @PostMapping
     public ResponseEntity<AllocationDTO> createAllocation(@Valid @RequestBody CreateAllocationDTO createAllocationDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(allocationService.createAllocation(createAllocationDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAllocation(@PathVariable(value = "id") Long id) {
+        allocationService.deleteAllocation(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
