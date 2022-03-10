@@ -15,6 +15,8 @@ import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class AllocationService {
 
@@ -55,6 +57,7 @@ public class AllocationService {
         allocationRepository.delete(allocation);
     }
 
+    @Transactional
     public void upadateAllocation(Long allocationId, UpdateAllocationDTO updateAllocationDTO) {
 
         Allocation allocation = getAllocationOrThrowException(allocationId);
