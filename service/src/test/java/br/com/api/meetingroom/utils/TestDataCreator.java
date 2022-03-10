@@ -5,6 +5,7 @@ import br.com.api.meetingroom.domain.entity.Employee;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
+import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 import br.com.api.meetingroom.util.DateUltils;
 
@@ -65,5 +66,12 @@ public final class TestDataCreator {
                 .startAt(DEFAULT_ALLOCATION_START_AT)
                 .endAt(DEFAULT_ALLOCATION_END_AT);
 
+    }
+
+    public static UpdateAllocationDTO.UpdateAllocationDTOBuilder newUpadateAllocationDToBuilder(){
+        return UpdateAllocationDTO.newUpdateAllocationDToBuilder()
+                .subject(DEFAULT_SUBJECT)
+                .startAt(DEFAULT_ALLOCATION_START_AT)
+                .endAt(DEFAULT_ALLOCATION_END_AT);
     }
 }

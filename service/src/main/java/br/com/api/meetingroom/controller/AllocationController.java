@@ -2,6 +2,7 @@ package br.com.api.meetingroom.controller;
 
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
+import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
@@ -35,11 +36,9 @@ public class AllocationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(allocationService.createAllocation(createAllocationDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAllocation(@PathVariable(value = "id") Long id) {
-        allocationService.deleteAllocation(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateAllocation(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateAllocationDTO updateAllocationDTO) {
+        allocationService.upadateAllocation(id,updateAllocationDTO);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
 }

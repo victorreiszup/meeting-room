@@ -5,13 +5,17 @@ import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
+import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
+import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.AllocationMapper;
 import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class AllocationService {
@@ -33,7 +37,7 @@ public class AllocationService {
         Room room = roomRepository.findByIdAndActive(createAllocationDTO.getRoomId(), true)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
 
-        allocationValidator.validate(createAllocationDTO);
+        allocationValidator.validateCreatedAllocation(createAllocationDTO);
 
         Allocation allocation = allocationMapper.fromCreateAllocationDtoToEntity(createAllocationDTO, room);
 
@@ -53,8 +57,29 @@ public class AllocationService {
         allocationRepository.delete(allocation);
     }
 
+    @Transactional
+    public void upadateAllocation(Long allocationId, UpdateAllocationDTO updateAllocationDTO) {
+
+        Allocation allocation = getAllocationOrThrowException(allocationId);
+
+        if (isPastAllocation(allocation)) {
+            throw new AllocationCannotUpdateException("Cannot update a finalized allocation");
+        }
+
+        allocationValidator.validateUpdateAllocation(allocation.getRoom().getId(), updateAllocationDTO);
+
+        allocationRepository.updateAllocation(
+                allocationId,
+                updateAllocationDTO.getSubject(),
+                updateAllocationDTO.getStartAt(),
+                updateAllocationDTO.getEndAt()
+        );
+
+    }
+
     private Allocation getAllocationOrThrowException(Long allocationId) {
-        return allocationRepository.findById(allocationId).orElseThrow(() -> new NotFoundException("Allocation not found"));
+        return allocationRepository.findById(allocationId)
+                .orElseThrow(() -> new NotFoundException("Allocation not found"));
     }
 
     private boolean isPastAllocation(Allocation allocation) {
