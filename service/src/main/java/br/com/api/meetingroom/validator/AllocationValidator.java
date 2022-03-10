@@ -5,13 +5,13 @@ import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.exception.BusinessException;
 import br.com.api.meetingroom.exception.ConflictException;
-import br.com.api.meetingroom.util.DateUltils;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
-import static br.com.api.meetingroom.util.DateUltils.*;
+import static br.com.api.meetingroom.util.DateUltils.isOverlapping;
+import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
 
 @Component
 public class AllocationValidator {
@@ -32,6 +32,7 @@ public class AllocationValidator {
     }
 
     public void validateUpdateAllocation(Long roomId, UpdateAllocationDTO updateAllocationDTO) {
+        validateDate(updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
         validateDuration(updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
         validateIfTimeAvailable(roomId, updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
     }
