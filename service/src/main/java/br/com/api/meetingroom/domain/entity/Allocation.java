@@ -1,5 +1,6 @@
 package br.com.api.meetingroom.domain.entity;
 
+import br.com.api.meetingroom.util.DateUltils;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

@@ -2,13 +2,17 @@ package br.com.api.meetingroom.validator;
 
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
+import br.com.api.meetingroom.util.DateUltils;
+import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.exception.BusinessException;
 import br.com.api.meetingroom.exception.ConflictException;
-import br.com.api.meetingroom.util.DateUltils;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+
+import static br.com.api.meetingroom.util.DateUltils.isOverlapping;
+import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
 
 @Component
 public class AllocationValidator {
@@ -21,11 +25,17 @@ public class AllocationValidator {
 
     private final int ALLOCATION_MAX_DURATION_SECONDS = 4 * 60 * 60;
 
-    public void validate(CreateAllocationDTO createAllocationDTO) {
+    public void validateCreatedAllocation(CreateAllocationDTO createAllocationDTO) {
         validateDate(createAllocationDTO.getStartAt(), createAllocationDTO.getEndAt());
         validateDuration(createAllocationDTO.getStartAt(), createAllocationDTO.getEndAt());
         validateIfTimeAvailable(createAllocationDTO.getRoomId(), createAllocationDTO.getStartAt(), createAllocationDTO.getEndAt());
 
+    }
+
+    public void validateUpdateAllocation(Long roomId, UpdateAllocationDTO updateAllocationDTO) {
+        validateDate(updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
+        validateDuration(updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
+        validateIfTimeAvailable(roomId, updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt());
     }
 
     private void validateDate(OffsetDateTime starAt, OffsetDateTime endAt) {
@@ -41,11 +51,13 @@ public class AllocationValidator {
     }
 
     private void validateIfTimeAvailable(Long roomId, OffsetDateTime startAt, OffsetDateTime endAt) {
-        allocationRepository.findAllWithFilter(roomId, DateUltils.newOffsetDateTimeNow(), endAt)
+        allocationRepository.findAllWithFilter(roomId, newOffsetDateTimeNow(), endAt)
                 .stream()
-                .filter(a -> DateUltils.isOverlapping(startAt, endAt, a.getStartAt(), a.getEndAt()))
+                .filter(a -> isOverlapping(startAt, endAt, a.getStartAt(), a.getEndAt()))
                 .findFirst()
-                .ifPresent(x -> {throw new ConflictException("Allocation overlap");});
+                .ifPresent(x -> {
+                    throw new ConflictException("Allocation overlap");
+                });
     }
 
 

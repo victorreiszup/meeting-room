@@ -2,6 +2,7 @@ package br.com.api.meetingroom.controller;
 
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
+import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
 @RequestMapping("/allocations")
 public class AllocationController {
 
-    private final AllocationService allocationService;
+   private final AllocationService allocationService;
 
     public AllocationController(AllocationService allocationService) {
         this.allocationService = allocationService;
@@ -42,4 +43,9 @@ public class AllocationController {
     }
 
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateAllocation(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateAllocationDTO updateAllocationDTO) {
+        allocationService.upadateAllocation(id,updateAllocationDTO);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

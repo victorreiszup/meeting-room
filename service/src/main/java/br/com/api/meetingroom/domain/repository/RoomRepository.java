@@ -17,10 +17,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Optional<Room> findByName(String name);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE Room r SET r.active = false WHERE r.id = :idRoom")
+    @Query("UPDATE Room r " +
+            "SET r.active = false " +
+            "WHERE r.id = :idRoom")
     void deactivate(@Param("idRoom") Long idRoom);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE Room r SET r.name = :name, r.seats = :seats WHERE r.id = :idRoom")
+    @Query("UPDATE Room r " +
+            "SET r.name = :name, r.seats = :seats " +
+            "WHERE r.id = :idRoom")
     void updateRoom(@Param("idRoom") Long idRoom, @Param("name") String name, @Param("seats") Integer seats);
 }
