@@ -4,6 +4,7 @@ import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.service.RoomService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,22 +28,27 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+
+    @Operation(summary = "Criar uma sala")
     @PostMapping
     public ResponseEntity<RoomDTO> createRoom(@Valid @RequestBody CreatedRoomDTO createdRoomDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(createdRoomDTO));
     }
 
+    @Operation(summary = "Buscar informações de uma sala através do seu id")
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> findRoombyId(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(roomService.findRoomById(id));
     }
 
+    @Operation(summary = "Deletar uma sala através do seu id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable(value = "id") Long id) {
         roomService.deleteRoom(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Atualizar uma sala")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRoom(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateRoomDTO updateRoomDTO) {
         roomService.updateRoom(id, updateRoomDTO);

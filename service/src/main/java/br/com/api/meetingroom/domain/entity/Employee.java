@@ -15,6 +15,9 @@ public class Employee {
         this.email = email;
     }
 
+    public Employee() {
+    }
+
     public String getName() {
         return name;
     }

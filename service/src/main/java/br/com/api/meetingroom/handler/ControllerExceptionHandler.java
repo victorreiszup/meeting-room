@@ -4,8 +4,14 @@ import br.com.api.meetingroom.exception.ConflictException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -18,6 +24,19 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<Object> handlerConflictException(Exception exception) {
         return createResponseEntity(HttpStatus.CONFLICT, exception);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handlerMethodArgumentNotValidException(MethodArgumentNotValidException argumentNotValidException) {
+        return argumentNotValidException
+                .getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(
+                        Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
+                );
+
     }
 
     private ResponseEntity<Object> createResponseEntity(HttpStatus httpStatus, Exception exception) {
