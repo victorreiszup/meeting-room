@@ -4,7 +4,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /v1
+    context-path: /api/v1
 # =============================
 # = Spring
 # =============================
@@ -16,3 +16,6 @@ spring:
     username: postgres
     password: root
     type: com.zaxxer.hikari.HikariDataSource
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

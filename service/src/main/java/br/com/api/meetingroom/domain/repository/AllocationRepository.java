@@ -15,12 +15,12 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
     @Query("SELECT a " +
             "FROM Allocation a " +
-            "WHERE a.room.id = :roomId AND a.startAt >= :startAt AND a.endAT <= :endAt")
+            "WHERE a.room.id = :roomId AND a.startAt >= :startAt AND a.endAt <= :endAt")
     List<Allocation> findAllWithFilter(@Param("roomId") Long roomId, @Param("startAt") OffsetDateTime startAt, @Param("endAt") OffsetDateTime endAt);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE Alocation a"
-            + "SET a.subject = :subject, a.startAt = :startAt, a.endAt = :endAt"
+    @Query("UPDATE Allocation a "
+            + "SET a.subject = :subject, a.startAt = :startAt, a.endAt = :endAt "
             + "WHERE a.id = :allocationId")
     void updateAllocation(@Param("allocationId") Long allocationId, @Param("subject") String subject,
                           @Param("startAt") OffsetDateTime startAt, @Param("endAt") OffsetDateTime endAt);
