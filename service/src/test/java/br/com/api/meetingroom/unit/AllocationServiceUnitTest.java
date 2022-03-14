@@ -5,32 +5,27 @@ import br.com.api.meetingroom.domain.entity.Allocation;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
-import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
 import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
 import br.com.api.meetingroom.utils.MapperUtils;
-import br.com.api.meetingroom.utils.TestDataCreator;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
-import static br.com.api.meetingroom.utils.TestDataCreator.*;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
+import static br.com.api.meetingroom.utils.TestDataCreator.newUpadateAllocationDToBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

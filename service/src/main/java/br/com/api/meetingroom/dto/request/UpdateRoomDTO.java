@@ -33,17 +33,11 @@ public class UpdateRoomDTO {
     }
 
     public static final class RoomDTOBuilder {
-        private Long id;
+
         private String name;
         private Integer seats;
 
         private RoomDTOBuilder() {
-        }
-
-
-        public RoomDTOBuilder id(Long id) {
-            this.id = id;
-            return this;
         }
 
         public RoomDTOBuilder name(String name) {
@@ -57,7 +51,7 @@ public class UpdateRoomDTO {
         }
 
         public UpdateRoomDTO build() {
-            return new UpdateRoomDTO( name, seats);
+            return new UpdateRoomDTO(name, seats);
         }
     }
 

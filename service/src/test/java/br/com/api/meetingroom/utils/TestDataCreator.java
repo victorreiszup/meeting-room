@@ -52,7 +52,6 @@ public final class TestDataCreator {
 
     public static UpdateRoomDTO.RoomDTOBuilder newUpdateRoomDtoBuilder(){
         return UpdateRoomDTO.newUpdateRoomDtoBuilder()
-                .id(DEFAULT_ROOM_ID)
                 .name(DEFAULT_ROOM_NAME)
                 .seats(DEFAULT_ROOM_SEATS);
     }

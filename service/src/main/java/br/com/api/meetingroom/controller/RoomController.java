@@ -41,10 +41,17 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK).body(roomService.findRoomById(id));
     }
 
-    @Operation(summary = "Deletar uma sala através do seu id")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable(value = "id") Long id) {
-        roomService.deleteRoom(id);
+    @Operation(summary = "Desativa uma sala através do seu id")
+    @PutMapping("/{id}/deactive")
+    public ResponseEntity<Void> deactivateRoom(@PathVariable(value = "id") Long id) {
+        roomService.deactivateRoom(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Ativa uma sala através do seu id")
+    @PutMapping("/{id}/active")
+    public ResponseEntity<Void> activateRoom(@PathVariable(value = "id") Long id) {
+        roomService.activateRoom(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

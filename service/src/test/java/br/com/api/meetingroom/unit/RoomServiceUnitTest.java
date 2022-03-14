@@ -69,13 +69,25 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     }
 
     @Test
-    void testDeleteRoomSuccess(){
+    void testDeactivateRoomWithSuccess() {
         Room room = TestDataCreator.newRoomBuilder().id(1L).build();
         when(roomRepository.findByIdAndActive(room.getId(), true)).thenReturn(Optional.of(room));
 
-        roomService.deleteRoom(room.getId());
+        roomService.deactivateRoom(room.getId());
 
-        verify(roomRepository).deactivate(any());
+
+        verify(roomRepository).deactivate(room.getId());
+    }
+
+    @Test
+    void testActivateRoomWithSuccess() {
+        Room room = TestDataCreator.newRoomBuilder().id(1L).active(false).build();
+        when(roomRepository.findById(room.getId())).thenReturn(Optional.of(room));
+
+        roomService.activateRoom(room.getId());
+
+
+        verify(roomRepository).activate(room.getId());
     }
 
 
@@ -89,7 +101,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
         roomService.updateRoom(1L, updateRoomDTO);
 
         assertEquals(room.getName(), updateRoomDTO.getName());
-        verify(roomRepository).updateRoom(any(),any(),any());
+        verify(roomRepository).updateRoom(any(), any(), any());
 
     }
 
@@ -100,7 +112,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
         when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.of(room));
         when(roomRepository.findByName(updateRoomDTO.getName())).thenReturn(Optional.of(room));
 
-        assertThrows(ConflictException.class, ()->roomService.updateRoom(1L, updateRoomDTO));
+        assertThrows(ConflictException.class, () -> roomService.updateRoom(1L, updateRoomDTO));
 
     }
 

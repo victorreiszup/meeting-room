@@ -39,10 +39,18 @@ public class RoomService {
     }
 
     @Transactional
-    public void deleteRoom(Long id) {
+    public void deactivateRoom(Long id) {
         getActiveRoomOrThrowException(id);
         roomRepository.deactivate(id);
     }
+
+    @Transactional
+    public void activateRoom(Long id) {
+        roomRepository.findById(id)
+                        .orElseThrow(() -> new NotFoundException("Room not found"));
+        roomRepository.activate(id);
+    }
+
 
     @Transactional
     public void updateRoom(Long id, UpdateRoomDTO updateRoomDTO) {
