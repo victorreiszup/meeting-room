@@ -16,7 +16,11 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     @Query("SELECT a " +
             "FROM Allocation a " +
             "WHERE a.room.id = :roomId AND a.startAt >= :startAt AND a.endAt <= :endAt")
-    List<Allocation> findAllWithFilter(@Param("roomId") Long roomId, @Param("startAt") OffsetDateTime startAt, @Param("endAt") OffsetDateTime endAt);
+    List<Allocation> findAllWithFilter(
+            @Param("roomId") Long roomId,
+            @Param("startAt") OffsetDateTime startAt,
+            @Param("endAt") OffsetDateTime endAt
+    );
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE Allocation a "
@@ -32,5 +36,21 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             @Param("startAt") OffsetDateTime startAt,
             @Param("endAt") OffsetDateTime endAt,
             @Param("updatedAt") OffsetDateTime updateAt
+    );
+
+    @Query(
+            "SELECT a "
+                    + "FROM Allocation a"
+                    + " WHERE"
+                    + " (:employeeEmail IS NULL OR a.employee.email = :employeeEmail) AND"
+                    + " (:roomId IS NULL OR a.room.id = :roomId) AND"
+                    + " (:startAt IS NULL OR a.startAt >= :startAt) AND"
+                    + " (:endAt IS NULL OR a.endAt <= :endAt)"
+    )
+    List<Allocation> findAllWithFilter(
+            @Param("employeeEmail") String employeeEmail,
+            @Param("roomId") Long roomId,
+            @Param("startAt") OffsetDateTime startAt,
+            @Param("endAt") OffsetDateTime endAt
     );
 }
