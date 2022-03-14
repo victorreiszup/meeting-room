@@ -60,13 +60,6 @@ public class Allocation {
         }
     }
 
-    @PreUpdate
-    void preUpdate() {
-        if (isNull(updatedAt)) {
-            updatedAt = newOffsetDateTimeNow();
-        }
-    }
-
     public Long getId() {
         return id;
     }

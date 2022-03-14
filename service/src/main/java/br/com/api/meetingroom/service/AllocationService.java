@@ -72,7 +72,8 @@ public class AllocationService {
                 allocationId,
                 updateAllocationDTO.getSubject(),
                 updateAllocationDTO.getStartAt(),
-                updateAllocationDTO.getEndAt()
+                updateAllocationDTO.getEndAt(),
+                DateUltils.newOffsetDateTimeNow()
         );
 
     }

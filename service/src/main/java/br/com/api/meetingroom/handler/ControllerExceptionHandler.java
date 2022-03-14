@@ -1,5 +1,6 @@
 package br.com.api.meetingroom.handler;
 
+import br.com.api.meetingroom.exception.BusinessException;
 import br.com.api.meetingroom.exception.ConflictException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,11 @@ public class ControllerExceptionHandler {
         return createResponseEntity(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler(ConflictException.class)
+    @ExceptionHandler({ConflictException.class, BusinessException.class})
     public ResponseEntity<Object> handlerConflictException(Exception exception) {
         return createResponseEntity(HttpStatus.CONFLICT, exception);
     }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

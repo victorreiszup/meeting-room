@@ -9,6 +9,7 @@ import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
 import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
+import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.utils.MapperUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -127,6 +128,8 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
                         allocation.getId(),
                         "Daily Devs",
                         newOffsetDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES),
-                        newOffsetDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES));
+                        newOffsetDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES),
+                        DateUltils.newOffsetDateTimeNow()
+                );
     }
 }
