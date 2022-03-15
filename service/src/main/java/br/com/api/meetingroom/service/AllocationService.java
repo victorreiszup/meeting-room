@@ -12,7 +12,9 @@ import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.AllocationMapper;
 import br.com.api.meetingroom.util.DateUltils;
+import br.com.api.meetingroom.util.PageUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -85,12 +87,22 @@ public class AllocationService {
 
     }
 
-    public List<AllocationDTO> listAllocations(String employeeEmail, Long roomId, LocalDate startAt, LocalDate endAnt) {
+    public List<AllocationDTO> listAllocations(
+            String employeeEmail,
+            Long roomId,
+            LocalDate startAt,
+            LocalDate endAnt,
+            String orderBy,
+            Integer limit) {
+
+        Pageable pageable = PageUtils.newPageable(null, limit, 0, orderBy, Allocation.SORTABLE_FIELDS);
+
         List<Allocation> allocations = allocationRepository.findAllWithFilter(
                 employeeEmail,
                 roomId,
                 isNull(startAt) ? null : startAt.atTime(LocalTime.MIN).atOffset(DateUltils.DEFAULT_TIMEZONE),
-                isNull(endAnt) ? null : endAnt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_TIMEZONE)
+                isNull(endAnt) ? null : endAnt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_TIMEZONE),
+                pageable
         );
 
         return allocations

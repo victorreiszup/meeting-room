@@ -1,6 +1,7 @@
 package br.com.api.meetingroom.domain.repository;
 
 import br.com.api.meetingroom.domain.entity.Allocation;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,6 +52,7 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             @Param("employeeEmail") String employeeEmail,
             @Param("roomId") Long roomId,
             @Param("startAt") OffsetDateTime startAt,
-            @Param("endAt") OffsetDateTime endAt
+            @Param("endAt") OffsetDateTime endAt,
+            Pageable pageable
     );
 }
