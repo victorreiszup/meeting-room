@@ -9,15 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
-
-import static br.com.api.meetingroom.util.DateUltils.*;
+import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
 import static java.util.Objects.isNull;
 
 @Entity
 public class Allocation {
+    public static final List<String> SORTABLE_FIELDS = Arrays.asList("startAt","endAt");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,13 +59,6 @@ public class Allocation {
     void prePersist() {
         if (isNull(createdAt)) {
             createdAt = newOffsetDateTimeNow();
-        }
-    }
-
-    @PreUpdate
-    void preUpdate() {
-        if (isNull(updatedAt)) {
-            updatedAt = newOffsetDateTimeNow();
         }
     }
 

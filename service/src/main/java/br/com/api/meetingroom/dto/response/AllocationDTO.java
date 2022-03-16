@@ -1,5 +1,7 @@
 package br.com.api.meetingroom.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.OffsetDateTime;
 
 public class AllocationDTO {
@@ -14,8 +16,10 @@ public class AllocationDTO {
 
     private String subject;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private OffsetDateTime startAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private OffsetDateTime endAt;
 
     public AllocationDTO(Long id, Long roomId, String employeeName, String employeeEmail, String subject, OffsetDateTime startAt, OffsetDateTime endAt) {

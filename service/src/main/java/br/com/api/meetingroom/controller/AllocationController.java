@@ -5,17 +5,22 @@ import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.service.AllocationService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/allocations")
@@ -45,5 +50,20 @@ public class AllocationController {
     public ResponseEntity<Void> updateAllocation(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateAllocationDTO updateAllocationDTO) {
         allocationService.upadateAllocation(id, updateAllocationDTO);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Listar todas as alocações")
+    @GetMapping
+    public ResponseEntity<List<AllocationDTO>> listAllocations(
+            @RequestParam(required = false) String employeeEmail,
+            @RequestParam(required = false) Long roomId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startAt,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endAnt,
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) Integer page) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(allocationService.listAllocations(employeeEmail, roomId, startAt, endAnt, orderBy, limit, page));
     }
 }

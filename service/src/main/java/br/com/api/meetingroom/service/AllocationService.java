@@ -12,13 +12,22 @@ import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.AllocationMapper;
 import br.com.api.meetingroom.util.DateUltils;
+import br.com.api.meetingroom.util.PageUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class AllocationService {
+    private static final int MAX_LIMIT_ELEMENT = 10;
 
     private final AllocationRepository allocationRepository;
     private final RoomRepository roomRepository;
@@ -72,9 +81,29 @@ public class AllocationService {
                 allocationId,
                 updateAllocationDTO.getSubject(),
                 updateAllocationDTO.getStartAt(),
-                updateAllocationDTO.getEndAt()
+                updateAllocationDTO.getEndAt(),
+                DateUltils.newOffsetDateTimeNow()
         );
 
+    }
+
+    public List<AllocationDTO> listAllocations(String employeeEmail, Long roomId, LocalDate startAt,
+                                               LocalDate endAt, String orderBy, Integer limit, Integer page) {
+
+        Pageable pageable = PageUtils.newPageable(page, limit, MAX_LIMIT_ELEMENT, orderBy, Allocation.SORTABLE_FIELDS);
+
+        List<Allocation> allocations = allocationRepository.findAllWithFilter(
+                employeeEmail,
+                roomId,
+                isNull(startAt) ? null : startAt.atTime(LocalTime.MIN).atOffset(DateUltils.DEFAULT_OFFSET),
+                isNull(endAt) ? null : endAt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_OFFSET),
+                pageable
+        );
+
+        return allocations
+                .stream()
+                .map(allocationMapper::fromEntityToAllocationDTO)
+                .collect(Collectors.toList());
     }
 
     private Allocation getAllocationOrThrowException(Long allocationId) {
