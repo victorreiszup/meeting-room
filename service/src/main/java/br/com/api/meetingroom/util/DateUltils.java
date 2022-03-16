@@ -6,13 +6,13 @@ import java.time.temporal.ChronoUnit;
 
 public final class DateUltils {
 
-    public static final ZoneOffset DEFAULT_TIMEZONE = ZoneOffset.of("-03:00");
+    public static final ZoneOffset DEFAULT_OFFSET = ZoneOffset.of("-03:00");
 
     private DateUltils() {
     }
 
     public static OffsetDateTime newOffsetDateTimeNow() {
-        return OffsetDateTime.now(DEFAULT_TIMEZONE).truncatedTo(ChronoUnit.MILLIS);
+        return OffsetDateTime.now(DEFAULT_OFFSET).truncatedTo(ChronoUnit.MILLIS);
     }
 
     public static boolean isOverlapping(OffsetDateTime startAt1, OffsetDateTime endAt1,

@@ -21,13 +21,13 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.*;
+import static java.util.Objects.isNull;
 
 @Service
 public class AllocationService {
+    private static final int MAX_LIMIT_ELEMENT = 10;
 
     private final AllocationRepository allocationRepository;
     private final RoomRepository roomRepository;
@@ -87,21 +87,16 @@ public class AllocationService {
 
     }
 
-    public List<AllocationDTO> listAllocations(
-            String employeeEmail,
-            Long roomId,
-            LocalDate startAt,
-            LocalDate endAnt,
-            String orderBy,
-            Integer limit) {
+    public List<AllocationDTO> listAllocations(String employeeEmail, Long roomId, LocalDate startAt,
+                                               LocalDate endAt, String orderBy, Integer limit, Integer page) {
 
-        Pageable pageable = PageUtils.newPageable(null, limit, 0, orderBy, Allocation.SORTABLE_FIELDS);
+        Pageable pageable = PageUtils.newPageable(page, limit, MAX_LIMIT_ELEMENT, orderBy, Allocation.SORTABLE_FIELDS);
 
         List<Allocation> allocations = allocationRepository.findAllWithFilter(
                 employeeEmail,
                 roomId,
-                isNull(startAt) ? null : startAt.atTime(LocalTime.MIN).atOffset(DateUltils.DEFAULT_TIMEZONE),
-                isNull(endAnt) ? null : endAnt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_TIMEZONE),
+                isNull(startAt) ? null : startAt.atTime(LocalTime.MIN).atOffset(DateUltils.DEFAULT_OFFSET),
+                isNull(endAt) ? null : endAt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_OFFSET),
                 pageable
         );
 

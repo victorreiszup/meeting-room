@@ -2,6 +2,7 @@ package br.com.api.meetingroom.handler;
 
 import br.com.api.meetingroom.exception.BusinessException;
 import br.com.api.meetingroom.exception.ConflictException;
+import br.com.api.meetingroom.exception.InvalidRequestException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,19 @@ public class ControllerExceptionHandler {
         return createResponseEntity(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler({ConflictException.class, BusinessException.class})
+    @ExceptionHandler(
+            {
+                    ConflictException.class,
+                    BusinessException.class
+            }
+    )
     public ResponseEntity<Object> handlerConflictException(Exception exception) {
         return createResponseEntity(HttpStatus.CONFLICT, exception);
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<Object> handlerInvalidRequestException(Exception exception) {
+        return createResponseEntity(HttpStatus.BAD_REQUEST, exception);
     }
 
 
