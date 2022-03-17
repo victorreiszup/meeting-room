@@ -11,14 +11,14 @@ server:
 spring:
   profiles:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/meeting-room-db?createDatabaseIfNotExist=true&severTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/meeting-room-db
+    username: postgres
     password: root
     type: com.zaxxer.hikari.HikariDataSource
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  flyway:
-    locations: classpath:/db/migration/mysql
+
+
 
