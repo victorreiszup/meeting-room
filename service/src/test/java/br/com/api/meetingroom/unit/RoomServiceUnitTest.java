@@ -39,7 +39,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     @Test
     void findRoomByIdSuccess() {
         Room room = TestDataCreator.newRoomBuilder().id(1l).build();
-        when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.of(room));
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
 
         RoomDTO roomDTO = roomService.findRoomById(1L);
 
@@ -52,7 +52,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     @Test
     void findRoomByIdNotFound() {
 
-        when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.empty());
+        when(roomRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> roomService.findRoomById(1L));
     }
 
@@ -71,7 +71,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     @Test
     void testDeactivateRoomWithSuccess() {
         Room room = TestDataCreator.newRoomBuilder().id(1L).build();
-        when(roomRepository.findByIdAndActive(room.getId(), true)).thenReturn(Optional.of(room));
+        when(roomRepository.findById(room.getId())).thenReturn(Optional.of(room));
 
         roomService.deactivateRoom(room.getId());
 
@@ -95,7 +95,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     void testUpdateRoomSuccess() {
         UpdateRoomDTO updateRoomDTO = TestDataCreator.newUpdateRoomDtoBuilder().build();
         Room room = TestDataCreator.newRoomBuilder().id(1L).active(true).name(updateRoomDTO.getName()).build();
-        when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.of(room));
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
         when(roomRepository.findByName(room.getName())).thenReturn(Optional.of(room));
 
         roomService.updateRoom(1L, updateRoomDTO);
@@ -109,7 +109,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     void testUpdateRoomDuplicateName() {
         UpdateRoomDTO updateRoomDTO = TestDataCreator.newUpdateRoomDtoBuilder().build();
         Room room = TestDataCreator.newRoomBuilder().id(2L).active(true).build();
-        when(roomRepository.findByIdAndActive(1L, true)).thenReturn(Optional.of(room));
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
         when(roomRepository.findByName(updateRoomDTO.getName())).thenReturn(Optional.of(room));
 
         assertThrows(ConflictException.class, () -> roomService.updateRoom(1L, updateRoomDTO));

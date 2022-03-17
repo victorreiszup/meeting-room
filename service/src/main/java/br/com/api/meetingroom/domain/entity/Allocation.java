@@ -1,6 +1,8 @@
 package br.com.api.meetingroom.domain.entity;
 
 
+import br.com.api.meetingroom.util.DateUltils;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,16 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import java.time.OffsetDateTime;
+import javax.rmi.CORBA.Util;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
+import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 import static java.util.Objects.isNull;
 
 @Entity
 public class Allocation {
-    public static final List<String> SORTABLE_FIELDS = Arrays.asList("startAt","endAt");
+    public static final List<String> SORTABLE_FIELDS = Arrays.asList("startAt", "endAt");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,18 +36,18 @@ public class Allocation {
 
     private String subject;
 
-    private OffsetDateTime startAt;
+    private LocalDateTime startAt;
 
-    private OffsetDateTime endAt;
+    private LocalDateTime endAt;
 
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     public Allocation() {
     }
 
-    private Allocation(Long id, Room room, Employee employee, String subject, OffsetDateTime startAt, OffsetDateTime endAt, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    private Allocation(Long id, Room room, Employee employee, String subject, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.room = room;
         this.employee = employee;
@@ -58,7 +61,7 @@ public class Allocation {
     @PrePersist
     void prePersist() {
         if (isNull(createdAt)) {
-            createdAt = newOffsetDateTimeNow();
+            createdAt = newLocalDateTimeNow();
         }
     }
 
@@ -78,19 +81,19 @@ public class Allocation {
         return subject;
     }
 
-    public OffsetDateTime getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public OffsetDateTime getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
-    public OffsetDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public OffsetDateTime getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
@@ -104,10 +107,10 @@ public class Allocation {
         private Room room;
         private Employee employee;
         private String subject;
-        private OffsetDateTime startAt;
-        private OffsetDateTime endAt;
-        private OffsetDateTime createdAt;
-        private OffsetDateTime updatedAt;
+        private LocalDateTime startAt;
+        private LocalDateTime endAt;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
         private AllocationBuilder() {
         }
@@ -133,22 +136,22 @@ public class Allocation {
             return this;
         }
 
-        public AllocationBuilder startAt(OffsetDateTime startAt) {
+        public AllocationBuilder startAt(LocalDateTime startAt) {
             this.startAt = startAt;
             return this;
         }
 
-        public AllocationBuilder endAt(OffsetDateTime endAt) {
+        public AllocationBuilder endAt(LocalDateTime endAt) {
             this.endAt = endAt;
             return this;
         }
 
-        public AllocationBuilder createdAt(OffsetDateTime createdAt) {
+        public AllocationBuilder createdAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        public AllocationBuilder updatedAt(OffsetDateTime updatedAt) {
+        public AllocationBuilder updatedAt(LocalDateTime updatedAt) {
             this.updatedAt = updatedAt;
             return this;
         }

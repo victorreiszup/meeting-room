@@ -1,7 +1,6 @@
 package br.com.api.meetingroom.domain.repository;
 
 import br.com.api.meetingroom.domain.entity.Allocation;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -20,8 +19,8 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             "WHERE a.room.id = :roomId AND a.startAt >= :startAt AND a.endAt <= :endAt")
     List<Allocation> findAllWithFilter(
             @Param("roomId") Long roomId,
-            @Param("startAt") OffsetDateTime startAt,
-            @Param("endAt") OffsetDateTime endAt
+            @Param("startAt") LocalDateTime startAt,
+            @Param("endAt") LocalDateTime endAt
     );
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
@@ -35,9 +34,9 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     void updateAllocation(
             @Param("allocationId") Long allocationId,
             @Param("subject") String subject,
-            @Param("startAt") OffsetDateTime startAt,
-            @Param("endAt") OffsetDateTime endAt,
-            @Param("updatedAt") OffsetDateTime updateAt
+            @Param("startAt") LocalDateTime startAt,
+            @Param("endAt") LocalDateTime endAt,
+            @Param("updatedAt") LocalDateTime updateAt
     );
 
     @Query(
@@ -50,7 +49,7 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     List<Allocation> findAllWithFilter(
             @Param("employeeEmail") String employeeEmail,
             @Param("roomId") Long roomId,
-            @Param("startAt") OffsetDateTime startAt,
-            @Param("endAt") OffsetDateTime endAt,
+            @Param("startAt") LocalDateTime startAt,
+            @Param("endAt") LocalDateTime endAt,
             Pageable pageable);
 }

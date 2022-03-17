@@ -1,10 +1,9 @@
 package br.com.api.meetingroom.dto.request;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class CreateAllocationDTO {
@@ -23,14 +22,12 @@ public class CreateAllocationDTO {
     private String subject;
 
     @NotNull
-    @FutureOrPresent
-    private OffsetDateTime startAt;
+    private LocalDateTime startAt;
 
     @NotNull
-    @FutureOrPresent
-    private OffsetDateTime endAt;
+    private LocalDateTime endAt;
 
-    public CreateAllocationDTO(Long roomId, String employeeName, String employeeEmail, String subject, OffsetDateTime startAt, OffsetDateTime endAt) {
+    public CreateAllocationDTO(Long roomId, String employeeName, String employeeEmail, String subject, LocalDateTime startAt, LocalDateTime endAt) {
         this.roomId = roomId;
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
@@ -55,11 +52,11 @@ public class CreateAllocationDTO {
         return subject;
     }
 
-    public OffsetDateTime getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public OffsetDateTime getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
@@ -86,8 +83,8 @@ public class CreateAllocationDTO {
         private String employeeName;
         private String employeeEmail;
         private String subject;
-        private OffsetDateTime startAt;
-        private OffsetDateTime endAt;
+        private LocalDateTime startAt;
+        private LocalDateTime endAt;
 
         private CreateAllocationDTOBuilder() {
         }
@@ -112,12 +109,12 @@ public class CreateAllocationDTO {
             return this;
         }
 
-        public CreateAllocationDTOBuilder startAt(OffsetDateTime startAt) {
+        public CreateAllocationDTOBuilder startAt(LocalDateTime startAt) {
             this.startAt = startAt;
             return this;
         }
 
-        public CreateAllocationDTOBuilder endAt(OffsetDateTime endAt) {
+        public CreateAllocationDTOBuilder endAt(LocalDateTime endAt) {
             this.endAt = endAt;
             return this;
         }

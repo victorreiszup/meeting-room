@@ -42,8 +42,8 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
                 ConflictException.class,
                 () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow())
-                                .endAt(DateUltils.newOffsetDateTimeNow())
+                                .startAt(DateUltils.newLocalDateTimeNow())
+                                .endAt(DateUltils.newLocalDateTimeNow())
                                 .build()
                 ));
 
@@ -57,8 +57,8 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
                 ConflictException.class,
                 () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow().plusMinutes(2))
-                                .endAt(DateUltils.newOffsetDateTimeNow())
+                                .startAt(DateUltils.newLocalDateTimeNow().plusMinutes(2))
+                                .endAt(DateUltils.newLocalDateTimeNow())
                                 .build()
                 ));
 
@@ -70,8 +70,8 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateWhenDateIsValid() {
         assertDoesNotThrow(() -> allocationValidator.validateCreatedAllocation(
                 newCreateAllocationDtoBuilder()
-                        .startAt(DateUltils.newOffsetDateTimeNow())
-                        .endAt(DateUltils.newOffsetDateTimeNow().plusHours(1))
+                        .startAt(DateUltils.newLocalDateTimeNow())
+                        .endAt(DateUltils.newLocalDateTimeNow().plusHours(1))
                         .build()
         ));
     }
@@ -82,8 +82,8 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
                 BusinessException.class,
                 () -> allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow())
-                                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(4).plusSeconds(1))
+                                .startAt(DateUltils.newLocalDateTimeNow())
+                                .endAt(DateUltils.newLocalDateTimeNow().plusHours(4).plusSeconds(1))
                                 .build()
                 ));
         assertEquals("Allocation exceeds duration", exception.getMessage());
@@ -94,8 +94,8 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
         assertDoesNotThrow(() ->
                 allocationValidator.validateCreatedAllocation(
                         newCreateAllocationDtoBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow())
-                                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(4))
+                                .startAt(DateUltils.newLocalDateTimeNow())
+                                .endAt(DateUltils.newLocalDateTimeNow().plusHours(4))
                                 .build()
                 ));
     }
@@ -104,15 +104,15 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateIfTimeAllocationUnavailable() {
 
         CreateAllocationDTO createAllocationDTO = newCreateAllocationDtoBuilder()
-                .startAt(DateUltils.newOffsetDateTimeNow().minusHours(1))
-                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(1))
+                .startAt(DateUltils.newLocalDateTimeNow())
+                .endAt(DateUltils.newLocalDateTimeNow().plusHours(1))
                 .build();
 
         when(allocationRepository.findAllWithFilter(any(), any(), any()))
                 .thenReturn(Arrays.asList(
                         newAllocationBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow())
-                                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(1))
+                                .startAt(DateUltils.newLocalDateTimeNow())
+                                .endAt(DateUltils.newLocalDateTimeNow().plusHours(1))
                                 .build()
                 ));
 
@@ -127,15 +127,15 @@ public class AllocationValidatorUnitTest extends BaseUnitTest {
     void testValidateIfTimeAllocationAvailable() {
 
         CreateAllocationDTO createAllocationDTO = newCreateAllocationDtoBuilder()
-                .startAt(DateUltils.newOffsetDateTimeNow().plusHours(1).plusSeconds(20))
-                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(3))
+                .startAt(DateUltils.newLocalDateTimeNow().plusHours(1).plusSeconds(20))
+                .endAt(DateUltils.newLocalDateTimeNow().plusHours(3))
                 .build();
 
         when(allocationRepository.findAllWithFilter(any(), any(), any()))
                 .thenReturn(Arrays.asList(
                         newAllocationBuilder()
-                                .startAt(DateUltils.newOffsetDateTimeNow())
-                                .endAt(DateUltils.newOffsetDateTimeNow().plusHours(1))
+                                .startAt(DateUltils.newLocalDateTimeNow())
+                                .endAt(DateUltils.newLocalDateTimeNow().plusHours(1))
                                 .build()
                 ));
 

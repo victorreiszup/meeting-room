@@ -7,7 +7,7 @@ CREATE TABLE allocation (
   start_at       TIMESTAMP WITH TIME ZONE NOT NULL,
   end_at         TIMESTAMP WITH TIME ZONE NOT NULL,
   created_at     TIMESTAMP WITH TIME ZONE NOT NULL,
-  updated_at     TIMESTAMP WITH TIME ZONE,
+  updated_at     TIMESTAMP WITH TIME ZONE ,
 
   PRIMARY KEY (id),
   CONSTRAINT fk_allocation_room_id FOREIGN KEY (room_id) REFERENCES room (id)

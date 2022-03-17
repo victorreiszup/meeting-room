@@ -2,7 +2,7 @@ package br.com.api.meetingroom.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 public class AllocationDTO {
 
@@ -16,13 +16,13 @@ public class AllocationDTO {
 
     private String subject;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private OffsetDateTime startAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm -03:00")
+    private LocalDateTime startAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private OffsetDateTime endAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm -03:00")
+    private LocalDateTime endAt;
 
-    public AllocationDTO(Long id, Long roomId, String employeeName, String employeeEmail, String subject, OffsetDateTime startAt, OffsetDateTime endAt) {
+    public AllocationDTO(Long id, Long roomId, String employeeName, String employeeEmail, String subject, LocalDateTime startAt, LocalDateTime endAt) {
         this.id = id;
         this.roomId = roomId;
         this.employeeName = employeeName;
@@ -52,11 +52,11 @@ public class AllocationDTO {
         return subject;
     }
 
-    public OffsetDateTime getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public OffsetDateTime getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
@@ -70,8 +70,8 @@ public class AllocationDTO {
         private String employeeName;
         private String employeeEmail;
         private String subject;
-        private OffsetDateTime startAt;
-        private OffsetDateTime endAt;
+        private LocalDateTime startAt;
+        private LocalDateTime endAt;
 
         private AllocationDTOBuilder() {
         }
@@ -101,12 +101,12 @@ public class AllocationDTO {
             return this;
         }
 
-        public AllocationDTOBuilder startAt(OffsetDateTime startAt) {
+        public AllocationDTOBuilder startAt(LocalDateTime startAt) {
             this.startAt = startAt;
             return this;
         }
 
-        public AllocationDTOBuilder endAt(OffsetDateTime endAt) {
+        public AllocationDTOBuilder endAt(LocalDateTime endAt) {
             this.endAt = endAt;
             return this;
         }

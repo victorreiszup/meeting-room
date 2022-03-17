@@ -9,7 +9,6 @@ import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
 import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
-import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.utils.MapperUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,7 @@ import org.mockito.Mock;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-import static br.com.api.meetingroom.util.DateUltils.newOffsetDateTimeNow;
+import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newUpadateAllocationDToBuilder;
@@ -59,8 +58,8 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
         Room room = newRoomBuilder().build();
 
         Allocation pastAllocation = newAllocationBuilder(room)
-                .startAt(newOffsetDateTimeNow().minusHours(1))
-                .endAt(newOffsetDateTimeNow().minusMinutes(30))
+                .startAt(newLocalDateTimeNow().minusHours(1))
+                .endAt(newLocalDateTimeNow().minusMinutes(30))
                 .build();
 
         when(allocationRepository.findById(pastAllocation.getId())).thenReturn(Optional.of(pastAllocation));
@@ -97,7 +96,7 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
     @Test
     void shouldFailToUpdatePastAllocation() {
         Room room = newRoomBuilder().build();
-        Allocation allocation = newAllocationBuilder(room).endAt(newOffsetDateTimeNow().minusSeconds(15)).build();
+        Allocation allocation = newAllocationBuilder(room).endAt(newLocalDateTimeNow().minusSeconds(15)).build();
         when(allocationRepository.findById(anyLong())).thenReturn(Optional.of(allocation));
 
         Exception exception = assertThrows(AllocationCannotUpdateException.class,
@@ -118,8 +117,8 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
                 allocation.getId(),
                 newUpadateAllocationDToBuilder()
                         .subject("Daily Devs")
-                        .startAt(newOffsetDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES))
-                        .endAt(newOffsetDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES))
+                        .startAt(newLocalDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES))
+                        .endAt(newLocalDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES))
                         .build()
         );
 
@@ -127,9 +126,9 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
                 .updateAllocation(
                         allocation.getId(),
                         "Daily Devs",
-                        newOffsetDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES),
-                        newOffsetDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES),
-                        DateUltils.newOffsetDateTimeNow()
+                        newLocalDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES),
+                        newLocalDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES),
+                        newLocalDateTimeNow()
                 );
     }
 }
