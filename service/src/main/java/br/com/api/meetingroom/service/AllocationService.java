@@ -50,7 +50,7 @@ public class AllocationService {
 
         Allocation allocation = allocationMapper.fromCreateAllocationDtoToEntity(createAllocationDTO, room);
 
-        allocationRepository.save(allocation);
+         allocationRepository.save(allocation);
 
         return allocationMapper.fromEntityToAllocationDTO(allocation);
     }
@@ -82,7 +82,7 @@ public class AllocationService {
                 updateAllocationDTO.getSubject(),
                 updateAllocationDTO.getStartAt(),
                 updateAllocationDTO.getEndAt(),
-                DateUltils.newOffsetDateTimeNow()
+                DateUltils.newLocalDateTimeNow()
         );
 
     }
@@ -95,8 +95,8 @@ public class AllocationService {
         List<Allocation> allocations = allocationRepository.findAllWithFilter(
                 employeeEmail,
                 roomId,
-                isNull(startAt) ? null : startAt.atTime(LocalTime.MIN).atOffset(DateUltils.DEFAULT_OFFSET),
-                isNull(endAt) ? null : endAt.atTime(LocalTime.MAX).atOffset(DateUltils.DEFAULT_OFFSET),
+                isNull(startAt) ? null : startAt.atTime(LocalTime.MIN),
+                isNull(endAt) ? null : endAt.atTime(LocalTime.MAX),
                 pageable
         );
 
@@ -112,8 +112,7 @@ public class AllocationService {
     }
 
     private boolean isPastAllocation(Allocation allocation) {
-        return allocation.getEndAt().isBefore(DateUltils.newOffsetDateTimeNow());
+        return allocation.getEndAt().isBefore(DateUltils.newLocalDateTimeNow());
     }
-
 
 }

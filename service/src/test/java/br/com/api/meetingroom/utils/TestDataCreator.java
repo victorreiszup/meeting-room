@@ -7,11 +7,10 @@ import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
 import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
-import br.com.api.meetingroom.util.DateUltils;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
-import static br.com.api.meetingroom.util.DateUltils.*;
+import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 
 public final class TestDataCreator {
 
@@ -23,8 +22,8 @@ public final class TestDataCreator {
     public static final String DEFAULT_SUBJECT = "Assunto x";
     public static final String DEFAULT_EMPLOYEE_NAME = "João Silva";
     public static final String DEFAULT_EMPLOYEE_EMAIL = "silva@email.com";
-    public static final OffsetDateTime DEFAULT_ALLOCATION_START_AT = newOffsetDateTimeNow();
-    public static final OffsetDateTime DEFAULT_ALLOCATION_END_AT = DEFAULT_ALLOCATION_START_AT.plusHours(1);
+    public static final LocalDateTime DEFAULT_ALLOCATION_START_AT = newLocalDateTimeNow();
+    public static final LocalDateTime DEFAULT_ALLOCATION_END_AT = DEFAULT_ALLOCATION_START_AT.plusHours(1);
 
 
     private TestDataCreator() {}

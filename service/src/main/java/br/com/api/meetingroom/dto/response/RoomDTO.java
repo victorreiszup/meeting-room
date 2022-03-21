@@ -8,10 +8,13 @@ public class RoomDTO {
 
     private Integer seats;
 
-    public RoomDTO(Long id, String name, Integer seats) {
+    private Boolean active;
+
+    public RoomDTO(Long id, String name, Integer seats, Boolean active) {
         this.id = id;
         this.name = name;
         this.seats = seats;
+        this.active = active;
     }
 
     public Long getId() {
@@ -26,6 +29,10 @@ public class RoomDTO {
         return seats;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
     public static RoomDTOBuilder newRoomDtoBuilder() {
         return new RoomDTOBuilder();
     }
@@ -34,6 +41,7 @@ public class RoomDTO {
         private Long id;
         private String name;
         private Integer seats;
+        private Boolean active;
 
         private RoomDTOBuilder() {
         }
@@ -54,8 +62,13 @@ public class RoomDTO {
             return this;
         }
 
+        public RoomDTOBuilder active(Boolean active){
+            this.active = active;
+            return this;
+        }
+
         public RoomDTO build() {
-            return new RoomDTO(id, name, seats);
+            return new RoomDTO(id, name, seats, active);
         }
     }
 

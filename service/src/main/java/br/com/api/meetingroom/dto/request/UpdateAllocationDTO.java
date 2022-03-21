@@ -1,8 +1,8 @@
 package br.com.api.meetingroom.dto.request;
 
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -12,14 +12,12 @@ public class UpdateAllocationDTO {
     private String subject;
 
     @NotNull
-    @FutureOrPresent
-    private OffsetDateTime startAt;
+    private LocalDateTime startAt;
 
     @NotNull
-    @FutureOrPresent
-    private OffsetDateTime endAt;
+    private LocalDateTime endAt;
 
-    public UpdateAllocationDTO(String subject, OffsetDateTime startAt, OffsetDateTime endAt) {
+    public UpdateAllocationDTO(String subject, LocalDateTime startAt, LocalDateTime endAt) {
         this.subject = subject;
         this.startAt = startAt;
         this.endAt = endAt;
@@ -29,11 +27,11 @@ public class UpdateAllocationDTO {
         return subject;
     }
 
-    public OffsetDateTime getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public OffsetDateTime getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
@@ -58,8 +56,8 @@ public class UpdateAllocationDTO {
 
     public static final class UpdateAllocationDTOBuilder {
         private String subject;
-        private OffsetDateTime startAt;
-        private OffsetDateTime endAt;
+        private LocalDateTime startAt;
+        private LocalDateTime endAt;
 
         private UpdateAllocationDTOBuilder() {
         }
@@ -70,12 +68,12 @@ public class UpdateAllocationDTO {
             return this;
         }
 
-        public UpdateAllocationDTOBuilder startAt(OffsetDateTime startAt) {
+        public UpdateAllocationDTOBuilder startAt(LocalDateTime startAt) {
             this.startAt = startAt;
             return this;
         }
 
-        public UpdateAllocationDTOBuilder endAt(OffsetDateTime endAt) {
+        public UpdateAllocationDTOBuilder endAt(LocalDateTime endAt) {
             this.endAt = endAt;
             return this;
         }

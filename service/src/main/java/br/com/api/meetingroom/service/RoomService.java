@@ -26,11 +26,6 @@ public class RoomService {
         this.roomMapper = roomMapper;
     }
 
-    public RoomDTO findRoomById(Long id) {
-        Room room = getActiveRoomOrThrowException(id);
-        return roomMapper.fromEntityToDTO(room);
-    }
-
     public RoomDTO createRoom(CreatedRoomDTO createdRoomDTO) {
         validateNameDuplicate(null, createdRoomDTO.getName());
         Room room = roomMapper.fromDToToEntity(createdRoomDTO);
@@ -38,30 +33,34 @@ public class RoomService {
         return roomMapper.fromEntityToDTO(room);
     }
 
+    public RoomDTO findRoomById(Long id) {
+        Room room = getRoomOrThrowException(id);
+        return roomMapper.fromEntityToDTO(room);
+    }
+
     @Transactional
     public void deactivateRoom(Long id) {
-        getActiveRoomOrThrowException(id);
+        getRoomOrThrowException(id);
         roomRepository.deactivate(id);
     }
 
     @Transactional
     public void activateRoom(Long id) {
-        roomRepository.findById(id)
-                        .orElseThrow(() -> new NotFoundException("Room not found"));
+        getRoomOrThrowException(id);
         roomRepository.activate(id);
     }
 
 
     @Transactional
     public void updateRoom(Long id, UpdateRoomDTO updateRoomDTO) {
-        getActiveRoomOrThrowException(id);
+        getRoomOrThrowException(id);
         validateNameDuplicate(id, updateRoomDTO.getName());
         roomRepository.updateRoom(id, updateRoomDTO.getName(), updateRoomDTO.getSeats());
 
     }
 
-    private Room getActiveRoomOrThrowException(Long id) {
-        return roomRepository.findByIdAndActive(id, true)
+    private Room getRoomOrThrowException(Long id) {
+        return roomRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
 
