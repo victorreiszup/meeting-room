@@ -9,6 +9,7 @@ import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
 import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
+import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.utils.MapperUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
