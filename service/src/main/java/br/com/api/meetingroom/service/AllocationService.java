@@ -49,7 +49,7 @@ public class AllocationService {
 
         Allocation allocation = allocationMapper.fromCreateAllocationDtoToEntity(createAllocationDTO, room);
 
-         allocationRepository.save(allocation);
+        allocationRepository.save(allocation);
 
         return allocationMapper.fromEntityToAllocationDTO(allocation);
     }
@@ -83,6 +83,11 @@ public class AllocationService {
                 newLocalDateTimeNow()
         );
 
+    }
+
+    public AllocationDTO getAllocation(Long idAllocation) {
+        Allocation allocation = getAllocationOrThrowException(idAllocation);
+        return allocationMapper.fromEntityToAllocationDTO(allocation);
     }
 
     public List<AllocationDTO> listAllocations(String employeeEmail, Long roomId, LocalDate startAt,

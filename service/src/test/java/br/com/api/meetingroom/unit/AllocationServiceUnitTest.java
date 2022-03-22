@@ -5,6 +5,7 @@ import br.com.api.meetingroom.domain.entity.Allocation;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
+import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.exception.InvalidRequestException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
@@ -128,4 +129,26 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
                         newLocalDateTimeNow()
                 );
     }
+
+    @Test
+    void testGetAllocationWithSuccess(){
+        Room room = newRoomBuilder().build();
+        Allocation allocation = newAllocationBuilder(room).build();
+        when(allocationRepository.findById(allocation.getId())).thenReturn(Optional.of(allocation));
+
+        AllocationDTO allocationDTO = allocationService.getAllocation(allocation.getId());
+
+        assertEquals(allocation.getId(),allocationDTO.getId());
+        assertEquals(allocation.getEmployee().getName(),allocationDTO.getEmployeeName());
+        verify(allocationRepository).findById(allocation.getId());
+    }
+
+    @Test
+    void testGetAllocationWithFail(){
+        Exception exception = assertThrows(NotFoundException.class,
+                () -> allocationService.getAllocation(1L));
+
+        assertEquals("Allocation not found", exception.getMessage());
+    }
+
 }
