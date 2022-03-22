@@ -66,4 +66,10 @@ public class AllocationController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(allocationService.listAllocations(employeeEmail, roomId, startAt, endAnt, orderBy, limit, page));
     }
+
+    @Operation(summary = "Buscar por uma alocação")
+    @GetMapping("/{id}")
+    public ResponseEntity<AllocationDTO> findAllocation(@PathVariable(value = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(allocationService.getAllocation(id));
+    }
 }

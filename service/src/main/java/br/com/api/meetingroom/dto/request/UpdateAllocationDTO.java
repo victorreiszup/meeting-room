@@ -1,15 +1,10 @@
 package br.com.api.meetingroom.dto.request;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Objects;
 
 public class UpdateAllocationDTO {
-
-    @NotBlank
-    private String subject;
 
     @NotNull
     private LocalDateTime startAt;
@@ -17,14 +12,9 @@ public class UpdateAllocationDTO {
     @NotNull
     private LocalDateTime endAt;
 
-    public UpdateAllocationDTO(String subject, LocalDateTime startAt, LocalDateTime endAt) {
-        this.subject = subject;
+    public UpdateAllocationDTO(LocalDateTime startAt, LocalDateTime endAt) {
         this.startAt = startAt;
         this.endAt = endAt;
-    }
-
-    public String getSubject() {
-        return subject;
     }
 
     public LocalDateTime getStartAt() {
@@ -35,19 +25,17 @@ public class UpdateAllocationDTO {
         return endAt;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UpdateAllocationDTO that = (UpdateAllocationDTO) o;
-        return Objects.equals(subject, that.subject) && Objects.equals(startAt, that.startAt) && Objects.equals(endAt, that.endAt);
+        return Objects.equals(startAt, that.startAt) && Objects.equals(endAt, that.endAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subject, startAt, endAt);
+        return Objects.hash(startAt, endAt);
     }
 
     public static UpdateAllocationDTOBuilder newUpdateAllocationDToBuilder() {
@@ -55,17 +43,10 @@ public class UpdateAllocationDTO {
     }
 
     public static final class UpdateAllocationDTOBuilder {
-        private String subject;
         private LocalDateTime startAt;
         private LocalDateTime endAt;
 
         private UpdateAllocationDTOBuilder() {
-        }
-
-
-        public UpdateAllocationDTOBuilder subject(String subject) {
-            this.subject = subject;
-            return this;
         }
 
         public UpdateAllocationDTOBuilder startAt(LocalDateTime startAt) {
@@ -79,7 +60,7 @@ public class UpdateAllocationDTO {
         }
 
         public UpdateAllocationDTO build() {
-            return new UpdateAllocationDTO(subject, startAt, endAt);
+            return new UpdateAllocationDTO(startAt, endAt);
         }
     }
 }

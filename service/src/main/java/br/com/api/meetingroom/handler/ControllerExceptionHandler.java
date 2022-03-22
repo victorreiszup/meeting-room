@@ -23,12 +23,7 @@ public class ControllerExceptionHandler {
         return createResponseEntity(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler(
-            {
-                    ConflictException.class,
-                    BusinessException.class
-            }
-    )
+    @ExceptionHandler({ConflictException.class, BusinessException.class})
     public ResponseEntity<Object> handlerConflictException(Exception exception) {
         return createResponseEntity(HttpStatus.CONFLICT, exception);
     }

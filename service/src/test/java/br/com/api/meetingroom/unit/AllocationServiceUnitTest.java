@@ -5,11 +5,10 @@ import br.com.api.meetingroom.domain.entity.Allocation;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
-import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
-import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
+import br.com.api.meetingroom.dto.response.AllocationDTO;
+import br.com.api.meetingroom.exception.InvalidRequestException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
-import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.utils.MapperUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +64,7 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
 
         when(allocationRepository.findById(pastAllocation.getId())).thenReturn(Optional.of(pastAllocation));
 
-        Exception exception = assertThrows(AllocationCannotDeletedException.class, () -> allocationService.deleteAllocation(pastAllocation.getId()));
+        Exception exception = assertThrows(InvalidRequestException.class, () -> allocationService.deleteAllocation(pastAllocation.getId()));
         assertNotNull(exception);
         assertEquals("Cannot delete allocation in the past", exception.getMessage());
 
@@ -100,7 +99,7 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
         Allocation allocation = newAllocationBuilder(room).endAt(newLocalDateTimeNow().minusSeconds(15)).build();
         when(allocationRepository.findById(anyLong())).thenReturn(Optional.of(allocation));
 
-        Exception exception = assertThrows(AllocationCannotUpdateException.class,
+        Exception exception = assertThrows(InvalidRequestException.class,
                 () -> allocationService.upadateAllocation(1L, newUpadateAllocationDToBuilder().build()));
 
         assertNotNull(exception);
@@ -117,7 +116,6 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
         allocationService.upadateAllocation(
                 allocation.getId(),
                 newUpadateAllocationDToBuilder()
-                        .subject("Daily Devs")
                         .startAt(newLocalDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES))
                         .endAt(newLocalDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES))
                         .build()
@@ -126,10 +124,31 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
         verify(allocationRepository)
                 .updateAllocation(
                         allocation.getId(),
-                        "Daily Devs",
                         newLocalDateTimeNow().plusHours(1).truncatedTo(ChronoUnit.MINUTES),
                         newLocalDateTimeNow().plusHours(2).truncatedTo(ChronoUnit.MINUTES),
                         newLocalDateTimeNow()
                 );
     }
+
+    @Test
+    void testGetAllocationWithSuccess(){
+        Room room = newRoomBuilder().build();
+        Allocation allocation = newAllocationBuilder(room).build();
+        when(allocationRepository.findById(allocation.getId())).thenReturn(Optional.of(allocation));
+
+        AllocationDTO allocationDTO = allocationService.getAllocation(allocation.getId());
+
+        assertEquals(allocation.getId(),allocationDTO.getId());
+        assertEquals(allocation.getEmployee().getName(),allocationDTO.getEmployeeName());
+        verify(allocationRepository).findById(allocation.getId());
+    }
+
+    @Test
+    void testGetAllocationWithFail(){
+        Exception exception = assertThrows(NotFoundException.class,
+                () -> allocationService.getAllocation(1L));
+
+        assertEquals("Allocation not found", exception.getMessage());
+    }
+
 }

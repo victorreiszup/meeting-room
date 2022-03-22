@@ -1,8 +1,6 @@
 package br.com.api.meetingroom.domain.entity;
 
 
-import br.com.api.meetingroom.util.DateUltils;
-
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.rmi.CORBA.Util;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
