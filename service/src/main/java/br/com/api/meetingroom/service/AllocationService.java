@@ -7,11 +7,9 @@ import br.com.api.meetingroom.domain.repository.RoomRepository;
 import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
-import br.com.api.meetingroom.exception.AllocationCannotDeletedException;
-import br.com.api.meetingroom.exception.AllocationCannotUpdateException;
+import br.com.api.meetingroom.exception.InvalidRequestException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.AllocationMapper;
-import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.util.PageUtils;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +21,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 import static java.util.Objects.isNull;
 
 @Service
@@ -44,7 +43,7 @@ public class AllocationService {
     public AllocationDTO createAllocation(CreateAllocationDTO createAllocationDTO) {
 
         Room room = roomRepository.findByIdAndActive(createAllocationDTO.getRoomId(), true)
-                .orElseThrow(() -> new NotFoundException("Room not found"));
+                .orElseThrow(() -> new InvalidRequestException("Room not available for allocation"));
 
         allocationValidator.validateCreatedAllocation(createAllocationDTO);
 
@@ -60,7 +59,7 @@ public class AllocationService {
         Allocation allocation = getAllocationOrThrowException(allocationId);
 
         if (isPastAllocation(allocation)) {
-            throw new AllocationCannotDeletedException("Cannot delete allocation in the past");
+            throw new InvalidRequestException("Cannot delete allocation in the past");
         }
 
         allocationRepository.delete(allocation);
@@ -72,17 +71,16 @@ public class AllocationService {
         Allocation allocation = getAllocationOrThrowException(allocationId);
 
         if (isPastAllocation(allocation)) {
-            throw new AllocationCannotUpdateException("Cannot update a finalized allocation");
+            throw new InvalidRequestException("Cannot update a finalized allocation");
         }
 
         allocationValidator.validateUpdateAllocation(allocation.getRoom().getId(), updateAllocationDTO);
 
         allocationRepository.updateAllocation(
                 allocationId,
-                updateAllocationDTO.getSubject(),
                 updateAllocationDTO.getStartAt(),
                 updateAllocationDTO.getEndAt(),
-                DateUltils.newLocalDateTimeNow()
+                newLocalDateTimeNow()
         );
 
     }
@@ -112,7 +110,7 @@ public class AllocationService {
     }
 
     private boolean isPastAllocation(Allocation allocation) {
-        return allocation.getEndAt().isBefore(DateUltils.newLocalDateTimeNow());
+        return allocation.getEndAt().isBefore(newLocalDateTimeNow());
     }
 
 }

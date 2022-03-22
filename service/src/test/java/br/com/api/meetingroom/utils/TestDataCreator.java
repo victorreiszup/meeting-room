@@ -68,7 +68,6 @@ public final class TestDataCreator {
 
     public static UpdateAllocationDTO.UpdateAllocationDTOBuilder newUpadateAllocationDToBuilder(){
         return UpdateAllocationDTO.newUpdateAllocationDToBuilder()
-                .subject(DEFAULT_SUBJECT)
                 .startAt(DEFAULT_ALLOCATION_START_AT)
                 .endAt(DEFAULT_ALLOCATION_END_AT);
     }

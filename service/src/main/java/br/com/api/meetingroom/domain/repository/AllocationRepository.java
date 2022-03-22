@@ -25,15 +25,13 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE Allocation a "
-            + "SET a.subject = :subject,"
-            + " a.startAt = :startAt,"
+            + "SET a.startAt = :startAt,"
             + " a.endAt = :endAt,"
             + " a.updatedAt = :updatedAt "
             + "WHERE a.id = :allocationId"
     )
     void updateAllocation(
             @Param("allocationId") Long allocationId,
-            @Param("subject") String subject,
             @Param("startAt") LocalDateTime startAt,
             @Param("endAt") LocalDateTime endAt,
             @Param("updatedAt") LocalDateTime updateAt
