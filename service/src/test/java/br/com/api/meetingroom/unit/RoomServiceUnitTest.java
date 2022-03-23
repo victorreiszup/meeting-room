@@ -17,6 +17,8 @@ import org.mockito.Mock;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
@@ -44,16 +46,17 @@ public class RoomServiceUnitTest extends BaseUnitTest {
         RoomDTO roomDTO = roomService.findRoomById(1L);
 
         assertEquals(room.getId(), roomDTO.getId());
-        assertEquals(room.getName(), roomDTO.getName());
-        assertEquals(room.getSeats(), roomDTO.getSeats());
+        assertThat(room.getName()).isEqualTo(roomDTO.getName());
+        assertThat(roomDTO.getSeats()).isEqualTo(room.getSeats());
+
     }
 
 
     @Test
     void findRoomByIdNotFound() {
-
-        when(roomRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> roomService.findRoomById(1L));
+        assertThatThrownBy(() -> roomService.findRoomById(1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Room not found");
     }
 
     @Test

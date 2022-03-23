@@ -5,10 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Room {
+    public static final List<String> SORTABLE_FIELDS = Arrays.asList("name","seats");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
