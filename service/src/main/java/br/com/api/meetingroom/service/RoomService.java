@@ -8,15 +8,21 @@ import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.exception.ConflictException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.mapper.RoomMapper;
+import br.com.api.meetingroom.util.PageUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.*;
 
 @Service
 public class RoomService {
+
+    private static final int MAX_LIMIT_ELEMENT = 10;
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
@@ -57,6 +63,12 @@ public class RoomService {
         validateNameDuplicate(id, updateRoomDTO.getName());
         roomRepository.updateRoom(id, updateRoomDTO.getName(), updateRoomDTO.getSeats());
 
+    }
+
+    public List<RoomDTO> listRooms(String name, Boolean active, String oderBy, Integer limit, Integer page) {
+        Pageable pageable = PageUtils.newPageable(page, limit, MAX_LIMIT_ELEMENT, oderBy, Room.SORTABLE_FIELDS);
+        List<Room> rooms = roomRepository.findAllWinthFilter(name, active, pageable);
+        return rooms.stream().map(roomMapper::fromEntityToDTO).collect(Collectors.toList());
     }
 
     private Room getRoomOrThrowException(Long id) {

@@ -1,12 +1,14 @@
 package br.com.api.meetingroom.domain.repository;
 
 import br.com.api.meetingroom.domain.entity.Room;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -41,6 +43,18 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             @Param("idRoom") Long idRoom,
             @Param("name") String name,
             @Param("seats") Integer seats
+    );
+
+    @Query(
+            "SELECT r " +
+                    "FROM Room r " +
+                    "WHERE (:name IS NULL OR r.name = :name) AND " +
+                    "(:active IS NULL OR r.active = :active)"
+    )
+    List<Room> findAllWinthFilter(
+            @Param("name") String name,
+            @Param("active") Boolean active,
+            Pageable pageable
     );
 
 
