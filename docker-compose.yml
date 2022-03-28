@@ -1,28 +1,25 @@
 version: '3'
 services:
-    postgres-db:
-      image: 'postgres:alpine'
-      container_name: postgres-container
-      volumes:
-        - postgres-volume:/var/lib/postgresql/data
-      ports:
-        - 5432:5432
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: root
-        POSTGRES_DB: meeting-room-db
-
-    api-meeting-room:
-      build:
-        context: .
-      container_name: api-meeting-room-container
-      depends_on:
-        - postgres-db
-      environment:
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/meeting-room-db
-      ports:
-        - 8080:8080
-
+  postgres-db:
+    image: 'postgres:alpine'
+    container_name: postgres-container
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  api-meeting-room:
+    container_name: meeting-room-container
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - postgres-db
+    ports:
+      - 8080:8080
 volumes:
   postgres-volume:
 

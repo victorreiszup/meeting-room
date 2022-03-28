@@ -13,9 +13,6 @@ spring:
     active: sit
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/meeting-room-db
-    username: postgres
-    password: root
     type: com.zaxxer.hikari.HikariDataSource
   mvc:
     pathmatch:
