@@ -1,4 +1,4 @@
-package br.com.api.meetingroom.unit;
+package br.com.api.meetingroom.unit.pageUtils;
 
 import br.com.api.meetingroom.core.BaseUnitTest;
 import br.com.api.meetingroom.domain.entity.Allocation;
