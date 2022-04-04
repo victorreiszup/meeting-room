@@ -11,6 +11,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
+
   api-meeting-room:
     container_name: meeting-room-container
     build:
@@ -18,8 +21,15 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - postgres-db
+    networks:
+      - app-network
     ports:
       - 8080:8080
+
 volumes:
   postgres-volume:
 
+networks:
+  app-network:
+    driver:
+      bridge
