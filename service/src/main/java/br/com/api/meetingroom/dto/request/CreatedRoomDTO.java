@@ -1,8 +1,9 @@
 package br.com.api.meetingroom.dto.request;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 public class CreatedRoomDTO {
@@ -11,7 +12,7 @@ public class CreatedRoomDTO {
     private String name;
 
     @NotNull
-    @Positive
+    @Min(2)@Max(50)
     private Integer seats;
 
     public CreatedRoomDTO( String name, Integer seats) {

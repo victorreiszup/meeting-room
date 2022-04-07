@@ -1,0 +1,13 @@
+# =============================
+# = Spring
+# =============================
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql://localhost/meeting-room-db-test
+    username: admin
+    password: admin
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    locations: classpath:/db/migration/postgresql
