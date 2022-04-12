@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 import static java.util.Objects.isNull;
@@ -156,5 +157,21 @@ public class Allocation {
         public Allocation build() {
             return new Allocation(id, room, employee, subject, startAt, endAt, createdAt, updatedAt);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Allocation that = (Allocation) o;
+        return Objects.equals(id, that.id) && Objects.equals(room, that.room) &&
+                Objects.equals(employee, that.employee) && Objects.equals(subject, that.subject) &&
+                Objects.equals(startAt, that.startAt) && Objects.equals(endAt, that.endAt) &&
+                Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, room, employee, subject, startAt, endAt, createdAt, updatedAt);
     }
 }
