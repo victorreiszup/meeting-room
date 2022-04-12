@@ -38,6 +38,7 @@ public final class TestDataCreator {
         return Allocation.newAllocationBuilder()
                 .id(DEFAULT_ALLOCATION_ID)
                 .room(room)
+                .subject(DEFAULT_SUBJECT)
                 .employee(Employee.newEmployeeBuilder().name(DEFAULT_EMPLOYEE_NAME).email(DEFAULT_EMPLOYEE_EMAIL).build())
                 .startAt(DEFAULT_ALLOCATION_START_AT)
                 .endAt(DEFAULT_ALLOCATION_END_AT);
