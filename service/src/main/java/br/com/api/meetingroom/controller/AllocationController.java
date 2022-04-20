@@ -4,6 +4,7 @@ import br.com.api.meetingroom.dto.request.CreateAllocationDTO;
 import br.com.api.meetingroom.dto.request.UpdateAllocationDTO;
 import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.service.AllocationService;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/allocations")
+@Api(tags = "api/v1/allocations")
 public class AllocationController {
 
     private final AllocationService allocationService;

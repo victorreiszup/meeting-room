@@ -4,9 +4,11 @@ import br.com.api.meetingroom.dto.request.CreatedRoomDTO;
 import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 import br.com.api.meetingroom.dto.response.RoomDTO;
 import br.com.api.meetingroom.service.RoomService;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
+@Api(tags = "api/v1/rooms")
 public class RoomController {
 
     private final RoomService roomService;
@@ -43,7 +46,7 @@ public class RoomController {
     }
 
     @Operation(summary = "Desativa uma sala através do seu id")
-    @PutMapping("/{id}/deactive")
+    @DeleteMapping("/{id}/deactive")
     public ResponseEntity<Void> deactivateRoom(@PathVariable(value = "id") Long id) {
         roomService.deactivateRoom(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
