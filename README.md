@@ -18,7 +18,7 @@ API Rest desenvolvida, para agendamento de sala.
 - AssertJ
 - Docker
 
-# Requsitos
+# Requesitos
 
 - Java 8
 - Docker
