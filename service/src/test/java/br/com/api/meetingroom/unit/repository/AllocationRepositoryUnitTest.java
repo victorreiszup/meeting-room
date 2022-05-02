@@ -5,24 +5,18 @@ import br.com.api.meetingroom.domain.entity.Allocation;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
-import br.com.api.meetingroom.util.DateUltils;
-import br.com.api.meetingroom.utils.TestDataCreator;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.testcontainers.shaded.org.apache.commons.lang.time.DateUtils;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.api.meetingroom.util.DateUltils.*;
-import static br.com.api.meetingroom.utils.TestDataCreator.*;
+import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.utils.TestDataCreator.DEFAULT_ALLOCATION_END_AT;
+import static br.com.api.meetingroom.utils.TestDataCreator.DEFAULT_ALLOCATION_START_AT;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

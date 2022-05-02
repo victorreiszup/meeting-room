@@ -34,6 +34,15 @@ public class RoomRepositoryUnitTest extends BaseRepositoryUnitTest {
         assertThat(roomDB.getName()).isEqualTo(room.get().getName());
     }
 
+    @Test
+    void shouldReturnOptionalEmpty(){
+        Room roomDB = roomRepository.save(newRoomBuilder().id(1L).active(false).build());
+
+        Optional<Room> room = roomRepository.findByIdAndActive(1l, true);
+
+        assertThat(room).isEmpty();
+    }
+
 
     @Test
     void shouldFindByNameWithSuccess() {
@@ -48,7 +57,7 @@ public class RoomRepositoryUnitTest extends BaseRepositoryUnitTest {
     }
 
     @Test
-    void findWhenNameNotExist() {
+    void testFindRoomWhenNameNotExist() {
         Optional<Room> room = roomRepository.findByName("Sala 0");
 
         assertThat(room).isEmpty();
@@ -57,7 +66,7 @@ public class RoomRepositoryUnitTest extends BaseRepositoryUnitTest {
 
     @Test
     @Transactional
-    void shouldDeactivateRoomSuccess(){
+    void shouldDeactivateRoomWithSuccess(){
         Room roomDB = roomRepository.save(newRoomBuilder().build());
 
         roomRepository.deactivate(roomDB.getId());
@@ -70,7 +79,7 @@ public class RoomRepositoryUnitTest extends BaseRepositoryUnitTest {
 
     @Test
     @Transactional
-    void shouldActivateRoomSuccess(){
+    void shouldActivateRoomWithSuccess(){
         Room roomDB = roomRepository.save(newRoomBuilder().active(false).build());
 
         roomRepository.activate(roomDB.getId());
