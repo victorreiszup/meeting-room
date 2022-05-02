@@ -46,23 +46,28 @@ public class RoomService {
 
     @Transactional
     public void deactivateRoom(Long id) {
-        getRoomOrThrowException(id);
+        if (!roomRepository.existsById(id)) {
+            throw new NotFoundException("Room not found");
+        }
         roomRepository.deactivate(id);
     }
 
     @Transactional
     public void activateRoom(Long id) {
-        getRoomOrThrowException(id);
+        if (!roomRepository.existsById(id)) {
+            throw new NotFoundException("Room not found");
+        }
         roomRepository.activate(id);
     }
 
 
     @Transactional
     public void updateRoom(Long id, UpdateRoomDTO updateRoomDTO) {
-        getRoomOrThrowException(id);
+        if (!roomRepository.existsById(id)) {
+            throw new NotFoundException("Room not found");
+        }
         validateNameDuplicate(id, updateRoomDTO.getName());
         roomRepository.updateRoom(id, updateRoomDTO.getName(), updateRoomDTO.getSeats());
-
     }
 
     public List<RoomDTO> listRooms(String name, Boolean active, String oderBy, Integer limit, Integer page) {

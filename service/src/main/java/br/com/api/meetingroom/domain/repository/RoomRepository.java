@@ -57,5 +57,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             Pageable pageable
     );
 
+    boolean existsById(Long id);
 
 }

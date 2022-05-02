@@ -50,4 +50,6 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             @Param("startAt") LocalDateTime startAt,
             @Param("endAt") LocalDateTime endAt,
             Pageable pageable);
+
+    boolean existsById(Long id);
 }

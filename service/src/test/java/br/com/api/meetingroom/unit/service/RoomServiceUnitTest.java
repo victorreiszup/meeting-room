@@ -17,6 +17,7 @@ import org.mockito.Mock;
 
 import java.util.Optional;
 
+import static br.com.api.meetingroom.utils.TestDataCreator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,7 +41,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
 
     @Test
     void findRoomByIdSuccess() {
-        Room room = TestDataCreator.newRoomBuilder().id(1l).build();
+        Room room = newRoomBuilder().id(1l).build();
         when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
 
         RoomDTO roomDTO = roomService.findRoomById(1L);
@@ -61,7 +62,7 @@ public class RoomServiceUnitTest extends BaseUnitTest {
 
     @Test
     void testCreateRoomSuccess() {
-        CreatedRoomDTO createdRoomDTO = TestDataCreator.newCreatedRoomDToBuilder().build();
+        CreatedRoomDTO createdRoomDTO = newCreatedRoomDToBuilder().build();
 
         RoomDTO roomDTO = roomService.createRoom(createdRoomDTO);
 
@@ -73,8 +74,8 @@ public class RoomServiceUnitTest extends BaseUnitTest {
 
     @Test
     void testDeactivateRoomWithSuccess() {
-        Room room = TestDataCreator.newRoomBuilder().id(1L).build();
-        when(roomRepository.findById(room.getId())).thenReturn(Optional.of(room));
+        Room room = newRoomBuilder().id(1L).build();
+        when(roomRepository.existsById(room.getId())).thenReturn(true);
 
         roomService.deactivateRoom(room.getId());
 
@@ -83,9 +84,17 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     }
 
     @Test
+    void shouldNotDeactiveWhenRoomNotExist() {
+        when(roomRepository.existsById(1L)).thenReturn(false);
+        assertThatThrownBy(() -> roomService.deactivateRoom(1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Room not found");
+    }
+
+    @Test
     void testActivateRoomWithSuccess() {
-        Room room = TestDataCreator.newRoomBuilder().id(1L).active(false).build();
-        when(roomRepository.findById(room.getId())).thenReturn(Optional.of(room));
+        Room room = newRoomBuilder().id(1L).active(false).build();
+        when(roomRepository.existsById(room.getId())).thenReturn(true);
 
         roomService.activateRoom(room.getId());
 
@@ -93,13 +102,21 @@ public class RoomServiceUnitTest extends BaseUnitTest {
         verify(roomRepository).activate(room.getId());
     }
 
+    @Test
+    void shouldNotActivateWhenRoomNotExist() {
+        when(roomRepository.existsById(1L)).thenReturn(false);
+
+        assertThatThrownBy(() -> roomService.activateRoom(1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Room not found");
+    }
+
 
     @Test
     void testUpdateRoomSuccess() {
-        UpdateRoomDTO updateRoomDTO = TestDataCreator.newUpdateRoomDtoBuilder().build();
-        Room room = TestDataCreator.newRoomBuilder().id(1L).active(true).name(updateRoomDTO.getName()).build();
-        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
-        when(roomRepository.findByName(room.getName())).thenReturn(Optional.of(room));
+        UpdateRoomDTO updateRoomDTO = newUpdateRoomDtoBuilder().build();
+        Room room = newRoomBuilder().id(1L).active(true).name(updateRoomDTO.getName()).build();
+        when(roomRepository.existsById(room.getId())).thenReturn(true);
 
         roomService.updateRoom(1L, updateRoomDTO);
 
@@ -109,14 +126,12 @@ public class RoomServiceUnitTest extends BaseUnitTest {
     }
 
     @Test
-    void testUpdateRoomDuplicateName() {
-        UpdateRoomDTO updateRoomDTO = TestDataCreator.newUpdateRoomDtoBuilder().build();
-        Room room = TestDataCreator.newRoomBuilder().id(2L).active(true).build();
-        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
-        when(roomRepository.findByName(updateRoomDTO.getName())).thenReturn(Optional.of(room));
+    void shouldNotUpdateWhenRoomNotExist() {
+        when(roomRepository.existsById(1L)).thenReturn(false);
 
-        assertThrows(ConflictException.class, () -> roomService.updateRoom(1L, updateRoomDTO));
-
+        assertThatThrownBy(() -> roomService.updateRoom(1L, newUpdateRoomDtoBuilder().build()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Room not found");
     }
 
 }
