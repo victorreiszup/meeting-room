@@ -1,6 +1,6 @@
 package br.com.api.meetingroom.unit.repository;
 
-import br.com.api.meetingroom.core.BaseRepositoryUnitTest;
+import br.com.api.meetingroom.core.BaseTest;
 import br.com.api.meetingroom.domain.entity.Allocation;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.AllocationRepository;
@@ -20,7 +20,7 @@ import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class AllocationRepositoryUnitTest extends BaseRepositoryUnitTest {
+public class AllocationRepositoryUnitTest extends BaseTest {
 
     @Autowired
     private AllocationRepository allocationRepository;

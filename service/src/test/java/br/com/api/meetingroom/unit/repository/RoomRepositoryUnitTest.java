@@ -1,12 +1,11 @@
 package br.com.api.meetingroom.unit.repository;
 
-import br.com.api.meetingroom.core.BaseRepositoryUnitTest;
+import br.com.api.meetingroom.core.BaseTest;
 import br.com.api.meetingroom.domain.entity.Room;
 import br.com.api.meetingroom.domain.repository.RoomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class RoomRepositoryUnitTest extends BaseRepositoryUnitTest {
+public class RoomRepositoryUnitTest extends BaseTest {
 
     @Autowired
     private RoomRepository roomRepository;

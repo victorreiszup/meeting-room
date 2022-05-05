@@ -10,9 +10,7 @@ import br.com.api.meetingroom.dto.response.AllocationDTO;
 import br.com.api.meetingroom.exception.InvalidRequestException;
 import br.com.api.meetingroom.exception.NotFoundException;
 import br.com.api.meetingroom.service.AllocationService;
-import br.com.api.meetingroom.util.DateUltils;
 import br.com.api.meetingroom.utils.MapperUtils;
-import br.com.api.meetingroom.utils.TestDataCreator;
 import br.com.api.meetingroom.validator.AllocationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +21,7 @@ import java.util.Optional;
 
 import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;
+import static br.com.api.meetingroom.utils.TestDataCreator.newCreateAllocationDtoBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newUpadateAllocationDToBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -159,21 +158,13 @@ public class AllocationServiceUnitTest extends BaseUnitTest {
     @Test
     void shouldCreateAllocationWithSuccess() {
         Room room = newRoomBuilder().id(1L).active(true).build();
-        CreateAllocationDTO createAllocationDTO = TestDataCreator.newCreateAllocationDtoBuilder().roomId(room.getId()).build();
+        CreateAllocationDTO createAllocationDTO = newCreateAllocationDtoBuilder().roomId(room.getId()).build();
         when(roomRepository.findByIdAndActive(room.getId(), true)).thenReturn(Optional.of(room));
 
         AllocationDTO allocationDTO = allocationService.createAllocation(createAllocationDTO);
 
         assertThat(allocationDTO).isNotNull().matches(e -> e.getRoomId().equals(room.getId()));
         assertThat(createAllocationDTO.getEmployeeName()).isEqualTo(allocationDTO.getEmployeeName());
-
-        assertThat(allocationDTO.getStartAt())
-                .isEqualTo(DateUltils.newLocalDateTimeNow())
-                .isBefore(allocationDTO.getEndAt());
-
-        assertThat(allocationDTO.getEndAt())
-                .isAfter(DateUltils.newLocalDateTimeNow());
-
         verify(allocationRepository).save(any());
 
     }
