@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 import static java.util.Objects.isNull;
 
 @Entity

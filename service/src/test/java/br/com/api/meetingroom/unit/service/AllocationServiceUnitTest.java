@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newCreateAllocationDtoBuilder;
 import static br.com.api.meetingroom.utils.TestDataCreator.newRoomBuilder;

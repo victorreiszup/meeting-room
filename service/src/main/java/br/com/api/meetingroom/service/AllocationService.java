@@ -21,7 +21,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 import static java.util.Objects.isNull;
 
 @Service

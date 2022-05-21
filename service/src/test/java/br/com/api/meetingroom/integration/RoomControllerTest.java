@@ -71,7 +71,7 @@ class RoomControllerTest extends BaseTest {
                 .andExpect(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        assertThat(payloadResponse.contains("não deve estar em branco"));
+        assertThat(payloadResponse.contains("não deve estar em branco")).isTrue();
     }
 
     @Test

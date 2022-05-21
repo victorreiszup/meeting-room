@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 import static br.com.api.meetingroom.utils.TestDataCreator.DEFAULT_ALLOCATION_END_AT;
 import static br.com.api.meetingroom.utils.TestDataCreator.DEFAULT_ALLOCATION_START_AT;
 import static br.com.api.meetingroom.utils.TestDataCreator.newAllocationBuilder;

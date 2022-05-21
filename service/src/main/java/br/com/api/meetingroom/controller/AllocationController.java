@@ -60,13 +60,13 @@ public class AllocationController {
             @RequestParam(required = false) String employeeEmail,
             @RequestParam(required = false) Long roomId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startAt,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endAnt,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endAt,
             @RequestParam(required = false) String orderBy,
             @RequestParam(required = false) Integer limit,
             @RequestParam(required = false) Integer page) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(allocationService.listAllocations(employeeEmail, roomId, startAt, endAnt, orderBy, limit, page));
+                .body(allocationService.listAllocations(employeeEmail, roomId, startAt, endAt, orderBy, limit, page));
     }
 
     @Operation(summary = "Buscar por uma alocação")

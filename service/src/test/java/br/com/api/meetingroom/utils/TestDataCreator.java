@@ -10,7 +10,7 @@ import br.com.api.meetingroom.dto.request.UpdateRoomDTO;
 
 import java.time.LocalDateTime;
 
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 
 public final class TestDataCreator {
 

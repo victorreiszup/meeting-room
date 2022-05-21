@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static br.com.api.meetingroom.util.DateUltils.isOverlapping;
-import static br.com.api.meetingroom.util.DateUltils.newLocalDateTimeNow;
+import static br.com.api.meetingroom.util.DateUtils.isOverlapping;
+import static br.com.api.meetingroom.util.DateUtils.newLocalDateTimeNow;
 
 @Component
 public class AllocationValidator {
