@@ -62,7 +62,7 @@ public class AllocationValidator {
                 .stream()
                 .filter(allocation -> isOverlapping(startAt, endAt, allocation.getStartAt(), allocation.getEndAt()))
                 .findFirst()
-                .ifPresent(x -> {
+                .ifPresent(__ -> {
                     throw new ConflictException("Allocation overlap");
                 });
     }

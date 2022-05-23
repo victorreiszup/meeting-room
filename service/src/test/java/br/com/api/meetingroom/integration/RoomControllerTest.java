@@ -115,7 +115,7 @@ class RoomControllerTest extends BaseTest {
         Room room = newRoomBuilder().build();
         room = roomRepository.save(room);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/rooms/" + room.getId() + "/deactive")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/rooms/" + room.getId())
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
@@ -129,7 +129,7 @@ class RoomControllerTest extends BaseTest {
     @Test
     void shouldNotDisableRoomWhenDoNotExist() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/rooms/" + 100 + "/deactive")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/rooms/" + 100 )
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)

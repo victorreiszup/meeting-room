@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Objects.*;
+
 @Entity
 public class Room {
     public static final List<String> SORTABLE_FIELDS = Arrays.asList("name","seats");
@@ -23,6 +25,7 @@ public class Room {
 
     private Boolean active;
 
+    @Deprecated
     public Room() {
     }
 
@@ -51,7 +54,7 @@ public class Room {
 
     @PrePersist
     void prePersist() {
-        if (Objects.isNull(active)) {
+        if (isNull(active)) {
             active = true;
         }
     }
@@ -66,7 +69,7 @@ public class Room {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, seats, active);
+        return hash(id, name, seats, active);
     }
 
     public static RoomBuilder newRoomBuilder() {

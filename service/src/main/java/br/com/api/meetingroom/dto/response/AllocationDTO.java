@@ -16,10 +16,10 @@ public class AllocationDTO {
 
     private String subject;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm -03:00")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime startAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm -03:00")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime endAt;
 
     public AllocationDTO(Long id, Long roomId, String employeeName, String employeeEmail, String subject, LocalDateTime startAt, LocalDateTime endAt) {

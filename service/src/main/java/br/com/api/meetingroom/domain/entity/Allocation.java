@@ -42,11 +42,11 @@ public class Allocation {
 
     private LocalDateTime updatedAt;
 
+    @Deprecated
     public Allocation() {
     }
 
-    private Allocation(Long id, Room room, Employee employee, String subject, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    private Allocation(Room room, Employee employee, String subject, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.room = room;
         this.employee = employee;
         this.subject = subject;
@@ -61,6 +61,7 @@ public class Allocation {
         if (isNull(createdAt)) {
             createdAt = newLocalDateTimeNow();
         }
+        updatedAt = newLocalDateTimeNow();
     }
 
     public Long getId() {
@@ -155,7 +156,7 @@ public class Allocation {
         }
 
         public Allocation build() {
-            return new Allocation(id, room, employee, subject, startAt, endAt, createdAt, updatedAt);
+            return new Allocation(room, employee, subject, startAt, endAt, createdAt, updatedAt);
         }
     }
 

@@ -22,7 +22,7 @@ import static java.util.Objects.*;
 @Service
 public class RoomService {
 
-    private static final int MAX_LIMIT_ELEMENT = 10;
+    private static final int MAX_LIMIT_ELEMENT = 8;
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
